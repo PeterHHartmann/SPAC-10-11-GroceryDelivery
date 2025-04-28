@@ -1,0 +1,88 @@
+@startuml Grocery Delivery App ERD
+
+' Configuration
+!define table(x) class x << (T,#FFAAAA) >>
+!define primary_key(x) <u>x</u>
+!define foreign_key(x) #x
+ 
+' Define entities
+table(Product) {
+  primary_key(product_id) : INT
+  product_name : VARCHAR(100)
+  class_id : INT foreign_key
+  price : DECIMAL(10,2)
+  stock_quantity : INT
+  image_path : VARCHAR(255)
+  description_path : VARCHAR(255)
+}
+
+table(Category) {
+  primary_key(id) : INT
+  class_name : VARCHAR(50)
+}
+ 
+table(User) {
+  primary_key(user_id) : INT
+  username : VARCHAR(50)
+  email : VARCHAR(100)
+  password : VARCHAR(255)
+  phone_number : VARCHAR(20)
+  address : VARCHAR(255)
+  registration_date : DATETIME
+  role : INT
+}
+ 
+table(Order) {
+  primary_key(order_id) : INT
+  user_id : INT foreign_key
+  order_date : DATETIME
+  delivery_address : VARCHAR(255)
+  total_amount : DECIMAL(10,2)
+  status : VARCHAR(20)
+  payment_method : VARCHAR(50)
+  delivery_time : DATETIME
+}
+ 
+table(OrderItem) {
+  primary_key(order_item_id) : INT
+  order_id : INT foreign_key
+  product_id : INT foreign_key
+  quantity : INT
+  unit_price : DECIMAL(10,2)
+  subtotal : DECIMAL(10,2)
+}
+ 
+table(DeliveryPerson) {
+  primary_key(delivery_person_id) : INT
+  name : VARCHAR(100)
+  phone_number : VARCHAR(20)
+  email : VARCHAR(100)
+  status : VARCHAR(20)
+}
+
+table(Delivery) {
+  primary_key(delivery_id) : INT
+  order_id : INT foreign_key
+  delivery_person_id : INT foreign_key
+  status : VARCHAR(20)
+  pickup_time : DATETIME
+  delivered_time : DATETIME
+  estimated_delivery_time : DATETIME
+}
+
+' Define relationships
+Product }o--|| Category : "belongs to"
+ 
+User ||--o{ Order : "places"
+ 
+ 
+Order ||--o{ OrderItem : "contains"
+Order ||--o{ Delivery : "has"
+ 
+OrderItem }o--|| Product : "references"
+ 
+ 
+DeliveryPerson ||--o{ Delivery : "handles"
+Delivery }o--|| Order : "fulfills"
+ 
+@enduml
