@@ -1,0 +1,6 @@
+@GroceryDeliveryAPI_HostAddress = http://localhost:5054
+
+GET {{GroceryDeliveryAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
