@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 
 export const AppNavigation: React.FC = () => {
 	return (
-		<header className='sticky flex inset-0 h-14 shrink-0 items-center gap-2 border-b px-4 bg-slate-50 w-full'>
+		<header className='sticky flex inset-0 h-14 shrink-0 items-center gap-2 border-b px-4 bg-slate-50 w-full z-30'>
 			<NavigationMenu className='max-w-full justify-between'>
 				<NavigationMenuList>
 					<NavigationMenuItem asChild>
-						<Link to={'/'} className='flex gap-2 text-xl items-center h-14 pr-4'>
+						<Link to={'/'} className='flex gap-2 text-xl items-center h-14 pr-7'>
 							<Bean size={24} />
 							<h1>GROCERY DELIVERY</h1>
 						</Link>
