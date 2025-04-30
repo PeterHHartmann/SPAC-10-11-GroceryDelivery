@@ -1,10 +1,10 @@
 import type { FC } from 'react';
-import NoImageIcon from '@/assets/no-image.svg';
+import PlaceholderImage from '@/assets/placeholder-image.svg';
 
 export const IndexPage: FC = () => {
 	return (
 		<div className='flex w-full'>
-			<img src={NoImageIcon} className="logo" alt="Image placeholder" />
+			<img src={PlaceholderImage} className="logo" alt="Image placeholder" />
 		</div>
 	);
 };
