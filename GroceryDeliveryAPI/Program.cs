@@ -1,6 +1,8 @@
 using GroceryDeliveryAPI.Context;
 using GroceryDeliveryAPI.Models;
+
 using GroceryDeliveryAPI.Seeding;
+
 using Microsoft.EntityFrameworkCore; // Added this using directive
 using System;
 
@@ -20,6 +22,7 @@ builder.Services.AddDbContextPool<GroceryDeliveryContext>(opt =>
 
 
 //Only run if database is empty - check is handled inside SeedDataAsync method
+
 //builder.Services.AddScoped<Seeder>();
 builder.Services.AddScoped<GroceryDataSeeder>();
 
@@ -36,6 +39,9 @@ using(var scope = builder.Services.BuildServiceProvider().CreateScope())
     await seeder.ImportDataAsync("Seeding\\GroceryStoreDataset\\dataset\\Groceries.CSV");
 }
 /*
+builder.Services.AddScoped<Seeder>();
+
+
 // Create a scope to resolve the Seeder service properly
 using (var scope = builder.Services.BuildServiceProvider().CreateScope())
 {
@@ -43,6 +49,7 @@ using (var scope = builder.Services.BuildServiceProvider().CreateScope())
     await seeder.SeedDataAsync("Seeding\\Dataset\\GroceryStoreDataset\\dataset\\Groceries.CSV");
 }
 */
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

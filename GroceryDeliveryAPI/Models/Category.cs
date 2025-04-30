@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+
 namespace GroceryDeliveryAPI.Models
 {
     public class Category
@@ -10,7 +11,6 @@ namespace GroceryDeliveryAPI.Models
 
         [Required]
         [StringLength(50)]
-        
         public string Name { get; set; }
 
         // Navigation property

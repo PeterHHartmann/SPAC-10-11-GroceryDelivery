@@ -1,0 +1,81 @@
+product_id,product_name,category_id,category_name,price,stock_quantity,image_path,description_path
+1,Golden Delicious Apple,1,Fruit,1.99,150,/images/products/golden-delicious.jpg,/descriptions/golden-delicious.txt
+2,Granny Smith Apple,1,Fruit,2.15,120,/images/products/granny-smith.jpg,/descriptions/granny-smith.txt
+3,Pink Lady Apple,1,Fruit,2.49,85,/images/products/pink-lady.jpg,/descriptions/pink-lady.txt
+4,Red Delicious Apple,1,Fruit,1.89,110,/images/products/red-delicious.jpg,/descriptions/red-delicious.txt
+5,Royal Gala Apple,1,Fruit,2.29,95,/images/products/royal-gala.jpg,/descriptions/royal-gala.txt
+6,Avocado,1,Fruit,2.99,70,/images/products/avocado.jpg,/descriptions/avocado.txt
+7,Banana,1,Fruit,1.69,200,/images/products/banana.jpg,/descriptions/banana.txt
+8,Kiwi,1,Fruit,0.75,80,/images/products/kiwi.jpg,/descriptions/kiwi.txt
+9,Lemon,1,Fruit,0.99,65,/images/products/lemon.jpg,/descriptions/lemon.txt
+10,Lime,1,Fruit,0.89,55,/images/products/lime.jpg,/descriptions/lime.txt
+11,Mango,1,Fruit,2.49,40,/images/products/mango.jpg,/descriptions/mango.txt
+12,Cantaloupe,1,Fruit,3.99,25,/images/products/cantaloupe.jpg,/descriptions/cantaloupe.txt
+13,Galia Melon,1,Fruit,4.29,20,/images/products/galia-melon.jpg,/descriptions/galia-melon.txt
+14,Honeydew Melon,1,Fruit,3.89,30,/images/products/honeydew-melon.jpg,/descriptions/honeydew-melon.txt
+15,Watermelon,1,Fruit,5.99,15,/images/products/watermelon.jpg,/descriptions/watermelon.txt
+16,Nectarine,1,Fruit,1.79,60,/images/products/nectarine.jpg,/descriptions/nectarine.txt
+17,Orange,1,Fruit,0.89,130,/images/products/orange.jpg,/descriptions/orange.txt
+18,Papaya,1,Fruit,3.49,20,/images/products/papaya.jpg,/descriptions/papaya.txt
+19,Passion Fruit,1,Fruit,1.25,30,/images/products/passion-fruit.jpg,/descriptions/passion-fruit.txt
+20,Peach,1,Fruit,1.69,50,/images/products/peach.jpg,/descriptions/peach.txt
+21,Anjou Pear,1,Fruit,1.59,45,/images/products/anjou-pear.jpg,/descriptions/anjou-pear.txt
+22,Conference Pear,1,Fruit,1.49,55,/images/products/conference-pear.jpg,/descriptions/conference-pear.txt
+23,Kaiser Pear,1,Fruit,1.69,40,/images/products/kaiser-pear.jpg,/descriptions/kaiser-pear.txt
+24,Pineapple,1,Fruit,3.99,25,/images/products/pineapple.jpg,/descriptions/pineapple.txt
+25,Plum,1,Fruit,0.59,70,/images/products/plum.jpg,/descriptions/plum.txt
+26,Asparagus,2,Vegetables,3.99,40,/images/products/asparagus.jpg,/descriptions/asparagus.txt
+27,Aubergine,2,Vegetables,1.89,35,/images/products/aubergine.jpg,/descriptions/aubergine.txt
+28,Cabbage,2,Vegetables,2.29,30,/images/products/cabbage.jpg,/descriptions/cabbage.txt
+29,Carrots,2,Vegetables,1.49,100,/images/products/carrots.jpg,/descriptions/carrots.txt
+30,Cucumber,2,Vegetables,1.19,75,/images/products/cucumber.jpg,/descriptions/cucumber.txt
+31,Garlic,2,Vegetables,0.99,60,/images/products/garlic.jpg,/descriptions/garlic.txt
+32,Ginger,2,Vegetables,2.49,40,/images/products/ginger.jpg,/descriptions/ginger.txt
+33,Leek,2,Vegetables,1.79,45,/images/products/leek.jpg,/descriptions/leek.txt
+34,Brown Cap Mushroom,2,Vegetables,2.29,50,/images/products/brown-cap-mushroom.jpg,/descriptions/brown-cap-mushroom.txt
+35,Yellow Onion,2,Vegetables,0.89,120,/images/products/yellow-onion.jpg,/descriptions/yellow-onion.txt
+36,Green Bell Pepper,2,Vegetables,1.19,65,/images/products/green-bell-pepper.jpg,/descriptions/green-bell-pepper.txt
+37,Orange Bell Pepper,2,Vegetables,1.49,55,/images/products/orange-bell-pepper.jpg,/descriptions/orange-bell-pepper.txt
+38,Red Bell Pepper,2,Vegetables,1.39,60,/images/products/red-bell-pepper.jpg,/descriptions/red-bell-pepper.txt
+39,Yellow Bell Pepper,2,Vegetables,1.49,50,/images/products/yellow-bell-pepper.jpg,/descriptions/yellow-bell-pepper.txt
+40,Floury Potato,2,Vegetables,0.99,150,/images/products/floury-potato.jpg,/descriptions/floury-potato.txt
+41,Solid Potato,2,Vegetables,1.19,140,/images/products/solid-potato.jpg,/descriptions/solid-potato.txt
+42,Sweet Potato,2,Vegetables,1.69,80,/images/products/sweet-potato.jpg,/descriptions/sweet-potato.txt
+43,Red Beet,2,Vegetables,1.49,45,/images/products/red-beet.jpg,/descriptions/red-beet.txt
+44,Beef Tomato,2,Vegetables,1.99,60,/images/products/beef-tomato.jpg,/descriptions/beef-tomato.txt
+45,Regular Tomato,2,Vegetables,0.99,100,/images/products/regular-tomato.jpg,/descriptions/regular-tomato.txt
+46,Vine Tomato,2,Vegetables,2.49,55,/images/products/vine-tomato.jpg,/descriptions/vine-tomato.txt
+47,Zucchini,2,Vegetables,1.29,70,/images/products/zucchini.jpg,/descriptions/zucchini.txt
+48,Bravo Apple Juice,3,Beverages,2.99,45,/images/products/bravo-apple-juice.jpg,/descriptions/bravo-apple-juice.txt
+49,Bravo Orange Juice,3,Beverages,2.99,50,/images/products/bravo-orange-juice.jpg,/descriptions/bravo-orange-juice.txt
+50,God Morgon Apple Juice,3,Beverages,3.49,40,/images/products/god-morgon-apple-juice.jpg,/descriptions/god-morgon-apple-juice.txt
+51,God Morgon Orange Juice,3,Beverages,3.49,45,/images/products/god-morgon-orange-juice.jpg,/descriptions/god-morgon-orange-juice.txt
+52,Tropicana Apple Juice,3,Beverages,3.99,35,/images/products/tropicana-apple-juice.jpg,/descriptions/tropicana-apple-juice.txt
+53,Tropicana Orange Juice,3,Beverages,3.99,40,/images/products/tropicana-juice-smooth.jpg,/descriptions/tropicana-juice-smooth.txt
+54,Arla Medium Fat Milk,4,Dairy,1.99,60,/images/products/arla-medium-fat-milk.jpg,/descriptions/arla-medium-fat-milk.txt
+55,Arla Standard Milk,4,Dairy,1.89,65,/images/products/arla-standard-milk.jpg,/descriptions/arla-standard-milk.txt
+56,Arla Ecological Medium Fat Milk,4,Dairy,2.49,40,/images/products/arla-ecological-medium-fat-milk.jpg,/descriptions/arla-ecological-medium-fat-milk.txt
+57,Arla Lactose Medium Fat Milk,4,Dairy,2.99,30,/images/products/arla-lactose-medium-fat-milk.jpg,/descriptions/arla-lactose-medium-fat-milk.txt
+58,Oatly Oat Milk,4,Dairy,3.29,35,/images/products/oatly-oat-milk.jpg,/descriptions/oatly-oat-milk.txt
+59,Alpro Fresh Soy Milk,4,Dairy,3.19,30,/images/products/alpro-fresh-soy-milk.jpg,/descriptions/alpro-fresh-soy-milk.txt
+60,Alpro Shelf Soy Milk,4,Dairy,2.99,40,/images/products/alpro-shelf-soy-milk.jpg,/descriptions/alpro-shelf-soy-milk.txt
+61,Arla Natural Yoghurt,4,Dairy,2.49,45,/images/products/arla-natural-yoghurt.jpg,/descriptions/arla-natural-yoghurt.txt
+62,Arla Mild Vanilla Yoghurt,4,Dairy,2.69,40,/images/products/arla-mild-vanilla-yoghurt.jpg,/descriptions/arla-mild-vanilla-yoghurt.txt
+63,Yoggi Vanilla Yoghurt,4,Dairy,2.59,35,/images/products/yoggi-vanilla-yoghurt.jpg,/descriptions/yoggi-vanilla-yoghurt.txt
+64,Yoggi Strawberry Yoghurt,4,Dairy,2.59,35,/images/products/yoggi-strawberry-yoghurt.jpg,/descriptions/yoggi-strawberry-yoghurt.txt
+65,Oatly Natural Oatghurt,4,Dairy,3.49,25,/images/products/oatly-natural-oatghurt.jpg,/descriptions/oatly-natural-oatghurt.txt
+66,Alpro Vanilla Soyghurt,4,Dairy,3.29,25,/images/products/alpro-vanilla-soyghurt.jpg,/descriptions/alpro-vanilla-soyghurt.txt
+67,Alpro Blueberry Soyghurt,4,Dairy,3.29,25,/images/products/alpro-blueberry-soyghurt.jpg,/descriptions/alpro-blueberry-soyghurt.txt
+68,Arla Sour Cream,4,Dairy,2.19,40,/images/products/arla-sour-cream.jpg,/descriptions/arla-sour-cream.txt
+69,Arla Ecological Sour Cream,4,Dairy,2.69,30,/images/products/arla-ecological-sour-cream.jpg,/descriptions/arla-ecological-sour-cream.txt
+70,Arla Sour Milk,4,Dairy,2.29,35,/images/products/arla-sour-milk.jpg,/descriptions/arla-sour-milk.txt
+71,Sourdough Bread,5,Bread,3.99,20,/images/products/sourdough-bread.jpg,/descriptions/sourdough-bread.txt
+72,White Loaf,5,Bread,2.49,30,/images/products/white-loaf.jpg,/descriptions/white-loaf.txt
+73,Whole Grain Bread,5,Bread,3.49,25,/images/products/whole-grain-bread.jpg,/descriptions/whole-grain-bread.txt
+74,Rye Bread,5,Bread,3.79,20,/images/products/rye-bread.jpg,/descriptions/rye-bread.txt
+75,Baguette,5,Bread,1.99,35,/images/products/baguette.jpg,/descriptions/baguette.txt
+76,Hamburger Buns,5,Bread,2.29,40,/images/products/hamburger-buns.jpg,/descriptions/hamburger-buns.txt
+77,Pasta Spaghetti,6,Grains,1.49,70,/images/products/pasta-spaghetti.jpg,/descriptions/pasta-spaghetti.txt
+78,Pasta Penne,6,Grains,1.49,65,/images/products/pasta-penne.jpg,/descriptions/pasta-penne.txt
+79,Basmati Rice,6,Grains,3.49,45,/images/products/basmati-rice.jpg,/descriptions/basmati-rice.txt
+80,Jasmine Rice,6,Grains,3.29,40,/images/products/jasmine-rice.jpg,/descriptions/jasmine-rice.txt
