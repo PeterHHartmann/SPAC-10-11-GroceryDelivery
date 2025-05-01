@@ -121,7 +121,7 @@ export const IndexPage: FC = () => {
 				<SidebarInset>
 					<section className='w-full h-full p-4 grid grid-cols-3 grid-flow-row gap-2'>
 						{placeholderProducts.map((product, index) => (
-							<ProductCard key={`product-${product.id}-card-${index}`} product={product} />
+							<ProductCard key={`product-${String(product.id)}-card-${String(index)}`} product={product} />
 						))}
 					</section>
 				</SidebarInset>

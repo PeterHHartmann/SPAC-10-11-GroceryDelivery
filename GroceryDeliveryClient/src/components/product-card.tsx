@@ -17,7 +17,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, onAddToCart }) => {
 	return (
 		<Card className="w-full max-w-sm rounded-2xl shadow-md p-0 overflow-hidden">
 			<CardHeader className="block h-56 p-0 w-full relative bg-background">
-				<Link to={`/products/${id}`} className='absolute w-full h-full'>
+				<Link to={`/products/${String(id)}`} className='absolute w-full h-full'>
 				</Link>
 				<img
 					src={image || PlaceholderImage}
@@ -26,7 +26,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product, onAddToCart }) => {
 				/>
 			</CardHeader>
 			<CardContent className="px-4">
-				<Link to={`/products/${id}`}>
+				<Link to={`/products/${String(id)}`}>
 					<CardTitle className="text-xl font-semibold text-primary">{name}</CardTitle>
 				</Link>
 				{description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
