@@ -44,8 +44,6 @@ namespace GroceryDeliveryAPI.Controllers
             return Ok(product);
         }
 
-     
-
         [HttpPost]
         public async Task<ActionResult<ProductDTO>> CreateProduct([FromBody] CreateProductDTO productDto)
         {
