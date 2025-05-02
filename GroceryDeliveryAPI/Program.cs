@@ -23,6 +23,10 @@ builder.Services.AddDbContextPool<GroceryDeliveryContext>(opt =>
 // Register ProductManager
 builder.Services.AddScoped<ProductManager>();
 
+// Register CategoryManager
+builder.Services.AddScoped<CategoryManager>();
+
+
 //Only run if database is empty - check is handled inside SeedDataAsync method
 
 //builder.Services.AddScoped<Seeder>();
