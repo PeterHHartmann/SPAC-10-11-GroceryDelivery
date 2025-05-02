@@ -66,7 +66,6 @@ namespace GroceryDeliveryAPI.Managers
 
             return await query.CountAsync();
         }
-
         public async Task<ProductDTO?> GetProductByIdAsync(int id)
         {
             var product = await _context.Products

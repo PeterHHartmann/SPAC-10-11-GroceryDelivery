@@ -4,6 +4,8 @@ VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroceryDeliveryAPI", "GroceryDeliveryAPI.csproj", "{4735CFD7-3B61-7C0A-9B87-9EE85C694067}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{41FA6EBA-10F3-4E99-AE5E-CAD643D01037}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,6 +16,10 @@ Global
 		{4735CFD7-3B61-7C0A-9B87-9EE85C694067}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4735CFD7-3B61-7C0A-9B87-9EE85C694067}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4735CFD7-3B61-7C0A-9B87-9EE85C694067}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41FA6EBA-10F3-4E99-AE5E-CAD643D01037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41FA6EBA-10F3-4E99-AE5E-CAD643D01037}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41FA6EBA-10F3-4E99-AE5E-CAD643D01037}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41FA6EBA-10F3-4E99-AE5E-CAD643D01037}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
