@@ -107,7 +107,7 @@ namespace UnitTests
             // Act
             await _userManager.GetUserByEmailAsync("nonexistent@example.com");
         }
-
+      
         /*
         [TestMethod]
         public async Task AddUserAsync_WithValidUser_AddsUser()

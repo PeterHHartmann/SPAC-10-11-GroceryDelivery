@@ -1,4 +1,4 @@
-﻿using GroceryDeliveryAPI.Context;
+using GroceryDeliveryAPI.Context;
 using GroceryDeliveryAPI.DTO_s;
 using GroceryDeliveryAPI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -117,9 +117,7 @@ namespace GroceryDeliveryAPI.Managers
                 if (string.IsNullOrWhiteSpace(user.Email))
                 {
                     throw new ArgumentException("Email cannot be empty", nameof(user.Email));
-                }
-
-             
+                } 
                 // Convert to user entity
                 var newUser = new User
                 {
