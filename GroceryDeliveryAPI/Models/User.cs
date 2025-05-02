@@ -4,12 +4,23 @@ namespace GroceryDeliveryAPI.Models
 {
     public class User
     {
+        public enum UserRole
+        {
+            Customer,
+            Admin,
+            DeliveryPerson
+        }
+
         [Key]
         public int UserId { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string Username { get; set; }
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string LastName { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -27,6 +38,9 @@ namespace GroceryDeliveryAPI.Models
         [StringLength(255)]
         [Required]
         public string Address { get; set; }
+
+        [Required]
+        public UserRole Role { get; set; }
 
         [Required]
         public DateTime RegistrationDate { get; set; }
