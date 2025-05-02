@@ -10,7 +10,7 @@ env: # environment variables (available in any part of the action)
   NODE_VERSION: 20
 
 jobs: # list of things to do
-  linting:
+  eslint:
     name: Linting # job name (unique id)
     runs-on: ubuntu-latest # on which machine to run
     permissions:
