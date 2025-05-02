@@ -1,6 +1,6 @@
 using GroceryDeliveryAPI.Context;
 using GroceryDeliveryAPI.Models;
-
+using GroceryDeliveryAPI.Managers;
 using GroceryDeliveryAPI.Seeding;
 
 using Microsoft.EntityFrameworkCore; // Added this using directive
@@ -19,6 +19,12 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContextPool<GroceryDeliveryContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Register ProductManager
+builder.Services.AddScoped<ProductManager>();
+
+// Register CategoryManager
+builder.Services.AddScoped<CategoryManager>();
 
 
 //Only run if database is empty - check is handled inside SeedDataAsync method
@@ -58,6 +64,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Configure static files for product images
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 
