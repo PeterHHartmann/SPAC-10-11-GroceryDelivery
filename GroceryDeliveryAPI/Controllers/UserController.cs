@@ -1,4 +1,5 @@
-﻿using GroceryDeliveryAPI.Managers;
+﻿using GroceryDeliveryAPI.DTO_s;
+using GroceryDeliveryAPI.Managers;
 using GroceryDeliveryAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,7 +44,7 @@ namespace GroceryDeliveryAPI.Controllers
         }
         // POST: api/user
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] User user)
+        public async Task<IActionResult> CreateUser([FromBody] UserDTO user)
         {
             try
             {
@@ -52,7 +53,7 @@ namespace GroceryDeliveryAPI.Controllers
                     return BadRequest("User object is null");
                 }
                 await _userManager.AddUserAsync(user, user.Role);
-                return CreatedAtAction(nameof(GetUserById), new { id = user.UserId }, user);
+                return CreatedAtAction(nameof(GetUserById), new { id = user.Id }, user);
             }
             catch (Exception ex)
             {

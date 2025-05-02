@@ -1,4 +1,5 @@
 ﻿using GroceryDeliveryAPI.Context;
+using GroceryDeliveryAPI.DTO_s;
 using GroceryDeliveryAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -90,7 +91,7 @@ namespace GroceryDeliveryAPI.Managers
         }
 
         // Add a new user
-        public async Task<User> AddUserAsync(User user, User.UserRole role)
+        public async Task<User> AddUserAsync(UserDTO user, User.UserRole role)
         {
             try
             {
@@ -117,13 +118,28 @@ namespace GroceryDeliveryAPI.Managers
                 {
                     throw new ArgumentException("Email cannot be empty", nameof(user.Email));
                 }
+
+             
+                // Convert to user entity
+                var newUser = new User
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    Address = user.Address,
+                    RegistrationDate = DateTime.UtcNow,
+                    Role = role,
+                    Password = user.Password // Store the plain password temporarily for hashing
+                };
+
                 // Hash password and set user metadata
-                HashPassword(user);
+                HashPassword(newUser);
                 user.Role = role;
            
-                await _context.Users.AddAsync(user);
+                await _context.Users.AddAsync(newUser);
                 await _context.SaveChangesAsync();
-                return user;
+                return newUser;
             }
             catch (DbUpdateException ex)
             {
