@@ -28,6 +28,8 @@ namespace GroceryDeliveryAPI.DTOs
 
     public class CreateProductDTO
     {
+        public int ProductId { get; set; }
+
         [Required]
         [StringLength(100)]
         public string ProductName { get; set; } = string.Empty;
