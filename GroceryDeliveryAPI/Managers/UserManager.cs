@@ -80,8 +80,7 @@ namespace GroceryDeliveryAPI.Managers
                 {
                     throw new InvalidOperationException($"User with email {email} not found");
                 }
-                // Remove sensitive data
-                user.Password = null; // Don't return password hash
+
                 return user;
             }
             catch (Exception ex) when (ex is not ArgumentException && ex is not InvalidOperationException)

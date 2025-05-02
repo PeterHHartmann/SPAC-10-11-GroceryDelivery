@@ -6,6 +6,7 @@ using GroceryDeliveryAPI.Seeding;
 using Microsoft.EntityFrameworkCore; // Added this using directive
 using System;
 using Microsoft.OpenApi.Models;
+using GroceryDeliveryAPI.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +58,10 @@ builder.Services.AddScoped<CategoryManager>();
 
 // Register UserManager
 builder.Services.AddScoped<UserManager>();
+
+// Regist AuthHelper
+builder.Services.AddScoped<AuthHelpers>();
+
 
 
 //Only run if database is empty - check is handled inside SeedDataAsync method
