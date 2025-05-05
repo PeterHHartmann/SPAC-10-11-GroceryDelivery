@@ -14,7 +14,7 @@ export const router = createBrowserRouter([
 				Component: IndexPage
 			},
 			{
-				path: '/cart',
+				path: '/basket',
 				Component: ShoppingBasketPage
 			}
 		]
