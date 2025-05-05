@@ -51,28 +51,20 @@ namespace GroceryDeliveryAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<DeliveryPerson> CreateDeliveryPersonAsync(UserDTO userDto)
+        public async Task<IActionResult> CreateDeliveryPersonAsync(UserDTO userDto)
         {
-            // First create the user with delivery person role
-            var user = await _userManager.AddUserAsync(userDto, Models.User.UserRole.DeliveryPerson);
-
-            // Convert to delivery person
-            var deliveryPerson = new DeliveryPerson
+            try
             {
-                UserId = user.UserId,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                Address = user.Address,
-                Password = user.Password,
-                Status = DeliveryPerson.DeliveryPersonStatus.Available
-            };
+                // Create the DeliveryPerson directly
+                var deliveryPerson = await _userManager.AddUserAsync(userDto, Models.User.UserRole.DeliveryPerson);
 
-            // Update the user record with delivery person specific data
-            await _userManager.UpdateUserAsync(user.UserId, deliveryPerson);
-
-            return deliveryPerson;
+                // Cast is safe because we know it's a DeliveryPerson
+                return Ok(deliveryPerson);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error creating delivery person: {ex.Message}");
+            }
         }
 
         /*
@@ -117,7 +109,8 @@ namespace GroceryDeliveryAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteDeliveryPerson(int id) {
+        public IActionResult DeleteDeliveryPerson(int id)
+        {
             try
             {
                 var deliveryPerson = deliveryPersonsManager.GetDeliveryPersonByIdAsync(id);

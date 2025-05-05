@@ -13,12 +13,6 @@ namespace GroceryDeliveryAPI.Models
             Inactive        // Account is disabled or suspended
         }
 
-        [Required]
-        [StringLength(100)]
-        public string Name { get; set; }
-
-        // Remove the Status property declaration since it's in the base class
-        // but add a non-nullable accessor
         public new DeliveryPersonStatus Status
         {
             get => base.Status ?? DeliveryPersonStatus.Offline;
@@ -32,7 +26,6 @@ namespace GroceryDeliveryAPI.Models
         {
             Role = UserRole.DeliveryPerson; // Set default role
             Status = DeliveryPersonStatus.Available; // Set default status
-            Name = $"{FirstName} {LastName}"; // Compose name from User properties
         }
     }
 }

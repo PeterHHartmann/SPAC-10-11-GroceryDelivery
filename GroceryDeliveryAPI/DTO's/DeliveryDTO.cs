@@ -12,7 +12,8 @@ namespace GroceryDeliveryAPI.DTO_s
         public DateTime? PickupTime { get; set; }
         public DateTime? DeliveredTime { get; set; }
         public DateTime? EstimatedDeliveryTime { get; set; }
-        public string DeliveryPersonName { get; set; }
+        public string DeliveryPersonFirstName { get; set; }
+        public string DeliveryPersonLastName { get; set; }
         public OrderDTO Order { get; set; }
     }
 }

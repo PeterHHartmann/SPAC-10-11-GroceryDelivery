@@ -35,7 +35,7 @@ namespace GroceryDeliveryAPI.Managers
             }
         }
 
-     
+
         // Get a user by ID
         public async Task<User> GetUserByIdAsync(int id)
         {
@@ -80,7 +80,7 @@ namespace GroceryDeliveryAPI.Managers
                 {
                     throw new InvalidOperationException($"User with email {email} not found");
                 }
-            
+
                 return user;
             }
             catch (Exception ex) when (ex is not ArgumentException && ex is not InvalidOperationException)
@@ -116,24 +116,44 @@ namespace GroceryDeliveryAPI.Managers
                 if (string.IsNullOrWhiteSpace(user.Email))
                 {
                     throw new ArgumentException("Email cannot be empty", nameof(user.Email));
-                } 
+                }
                 // Convert to user entity
-                var newUser = new User
+                User newUser;
+
+                if (role == User.UserRole.DeliveryPerson)
                 {
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    PhoneNumber = user.PhoneNumber,
-                    Address = user.Address,
-                    RegistrationDate = DateTime.UtcNow,
-                    Role = role,
-                    Password = user.Password // Store the plain password temporarily for hashing
-                };
+                    newUser = new DeliveryPerson
+                    {
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber,
+                        Address = user.Address,
+                        RegistrationDate = DateTime.UtcNow,
+                        Role = role,
+                        Password = user.Password,
+                        Status = DeliveryPerson.DeliveryPersonStatus.Available,
+                    };
+                }
+                else
+                {
+                    newUser = new User
+                    {
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        PhoneNumber = user.PhoneNumber,
+                        Address = user.Address,
+                        RegistrationDate = DateTime.UtcNow,
+                        Role = role,
+                        Password = user.Password
+                    };
+                }
 
                 // Hash password and set user metadata
                 HashPassword(newUser);
                 user.Role = role;
-           
+
                 await _context.Users.AddAsync(newUser);
                 await _context.SaveChangesAsync();
                 return newUser;
@@ -172,17 +192,33 @@ namespace GroceryDeliveryAPI.Managers
                     throw new InvalidOperationException($"User with ID {id} not found");
                 }
 
-                // Update the existing entity's properties
+                // Update common properties
                 existingUser.FirstName = updatedUser.FirstName;
                 existingUser.LastName = updatedUser.LastName;
                 existingUser.Email = updatedUser.Email;
+                existingUser.PhoneNumber = updatedUser.PhoneNumber;
+                existingUser.Address = updatedUser.Address;
+
                 if (!string.IsNullOrEmpty(updatedUser.Password))
                 {
                     existingUser.Password = updatedUser.Password;
                     HashPassword(existingUser);
                 }
-                existingUser.PhoneNumber = updatedUser.PhoneNumber;
-                existingUser.Address = updatedUser.Address;
+
+                // Update type-specific properties if applicable
+                if (existingUser is DeliveryPerson existingDeliveryPerson && updatedUser is DeliveryPerson updatedDeliveryPerson)
+                {
+                    existingDeliveryPerson.Status = updatedDeliveryPerson.Status;
+                    existingDeliveryPerson.FirstName = $"{updatedUser.FirstName}";
+                    existingDeliveryPerson.LastName = $"{updatedUser.LastName}";
+                }
+                else if (updatedUser.Role == User.UserRole.DeliveryPerson && existingUser.Role != User.UserRole.DeliveryPerson)
+                {
+                    // This is a harder case - changing from regular user to delivery person
+                    // This might require deleting and recreating the user with the right type
+                    // For now, we'll just set the Status
+                    existingUser.Status = DeliveryPerson.DeliveryPersonStatus.Available;
+                }
 
                 // Save changes
                 await _context.SaveChangesAsync();

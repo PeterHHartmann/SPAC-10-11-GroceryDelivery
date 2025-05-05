@@ -43,7 +43,7 @@ namespace GroceryDeliveryAPI.Models
         public UserRole Role { get; set; }
 
         // Add discriminator column for TPH inheritance
-        public string Discriminator { get; set; }
+        protected string Discriminator { get; set; }
 
         // Add Status with nullable enum since it's only for delivery persons
         public DeliveryPerson.DeliveryPersonStatus? Status { get; set; }

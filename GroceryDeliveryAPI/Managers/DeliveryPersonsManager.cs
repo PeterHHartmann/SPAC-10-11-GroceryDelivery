@@ -25,7 +25,7 @@ namespace GroceryDeliveryAPI.Managers
             {
                 throw new InvalidOperationException($"Error retrieving users: {ex.Message}", ex);
             }
-           
+
         }
 
         public async Task<User> GetDeliveryPersonByIdAsync(int id)
@@ -88,6 +88,7 @@ namespace GroceryDeliveryAPI.Managers
                 existingDeliveryPerson.LastName = deliveryPerson.LastName;
                 existingDeliveryPerson.PhoneNumber = deliveryPerson.PhoneNumber;
                 existingDeliveryPerson.Email = deliveryPerson.Email;
+                existingDeliveryPerson.Status = deliveryPerson.Status; // Add this line
                 await _context.SaveChangesAsync();
                 return true;
             }

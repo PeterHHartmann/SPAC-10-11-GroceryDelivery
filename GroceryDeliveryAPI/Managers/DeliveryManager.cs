@@ -47,7 +47,7 @@ namespace GroceryDeliveryAPI.Managers
                 DeliveryPerson = d.DeliveryPerson,
                 Order = d.Order
             }).FirstOrDefaultAsync(d => d.DeliveryId == id);
-           
+
             return delivery;
         }
 
@@ -72,12 +72,12 @@ namespace GroceryDeliveryAPI.Managers
                 PickupTime = d.PickupTime,
                 EstimatedDeliveryTime = d.EstimatedDeliveryTime,
                 DeliveredTime = d.DeliveredTime,
-                DeliveryPersonName = d.DeliveryPerson?.Name,
+                DeliveryPersonFirstName = d.DeliveryPerson.FirstName,
+                DeliveryPersonLastName = d.DeliveryPerson.LastName,
                 Order = new OrderDTO
                 {
                     OrderId = d.Order.OrderId,
                     CustomerId = d.Order.UserId,
-                
                     OrderDate = d.Order.OrderDate,
                     DeliveryAddress = d.Order.DeliveryAddress,
                     TotalAmount = d.Order.TotalAmount,
@@ -122,34 +122,58 @@ namespace GroceryDeliveryAPI.Managers
             }
             catch (InvalidOperationException ex) when (ex.Message.Contains("No delivery drivers"))
             {
+                // Find or create a system placeholder delivery person if it doesn't exist
+                var systemDeliveryPerson = await _context.Users
+                    .OfType<DeliveryPerson>()
+                    .FirstOrDefaultAsync(dp => dp.FirstName == "System" && dp.LastName == "Unassigned");
+
+                if (systemDeliveryPerson == null)
+                {
+                    // Create a placeholder delivery person
+                    systemDeliveryPerson = new DeliveryPerson
+                    {
+                        FirstName = "System",
+                        LastName = "Unassigned",
+                        Email = "system.unassigned@example.com",
+                        Password = Guid.NewGuid().ToString(), // Random password
+                        PhoneNumber = "000-000-0000",
+                        Address = "System Address",
+                        Role = User.UserRole.DeliveryPerson,
+                        Status = DeliveryPerson.DeliveryPersonStatus.Offline,
+                        RegistrationDate = DateTime.UtcNow
+                    };
+
+                    _context.Users.Add(systemDeliveryPerson);
+                    await _context.SaveChangesAsync();
+                }
+
                 // Handle the specific case of no available drivers by creating an unassigned delivery
                 // with a special ID for the delivery person that indicates "unassigned"
+
+                // Update the order status
                 var order = await _context.Orders.FindAsync(orderId);
                 if (order == null)
                 {
                     throw new InvalidOperationException($"Order with ID {orderId} not found");
                 }
 
-                // Update the order status to indicate it's waiting for a driver
                 order.Status = "AwaitingDriver";
 
-                // Create a delivery record without an assigned driver
-                // Using a placeholder DeliveryPersonId of 0 to indicate unassigned
+                // Create a delivery with the system placeholder delivery person
                 var unassignedDelivery = new Delivery
                 {
                     DeliveryId = 0,
-                    DeliveryPersonId = 0, // Special case - no driver assigned yet
+                    DeliveryPersonId = systemDeliveryPerson.UserId,
                     OrderId = orderId,
                     Status = Delivery.DeliveryStatus.Pending,
                     PickupTime = null,
-                    EstimatedDeliveryTime = DateTime.UtcNow.AddDays(2), // Extra day due to no driver
+                    EstimatedDeliveryTime = DateTime.UtcNow.AddDays(2),
                 };
 
                 _context.Deliveries.Add(unassignedDelivery);
                 await _context.SaveChangesAsync();
 
-                // Log this situation for administrative review
-                Console.WriteLine($"Created unassigned delivery for order {orderId} due to no available drivers");
+                Console.WriteLine($"Created delivery with system placeholder for order {orderId} due to no available drivers");
 
                 return unassignedDelivery;
             }
@@ -233,6 +257,7 @@ namespace GroceryDeliveryAPI.Managers
                 else if (deliveryStatus == Delivery.DeliveryStatus.InProgress)
                 {
                     existingDelivery.PickupTime = DateTime.UtcNow;
+                    existingDelivery.EstimatedDeliveryTime = DateTime.UtcNow.AddHours(1); // Example: 1 hour from now
                     // Also update the corresponding order status
                     var order = await _context.Orders.FindAsync(existingDelivery.OrderId);
                     if (order != null)
@@ -261,7 +286,8 @@ namespace GroceryDeliveryAPI.Managers
                     PickupTime = existingDelivery.PickupTime,
                     EstimatedDeliveryTime = existingDelivery.EstimatedDeliveryTime,
                     DeliveredTime = existingDelivery.DeliveredTime,
-                    DeliveryPersonName = existingDelivery.DeliveryPerson?.Name,
+                    DeliveryPersonFirstName = existingDelivery.DeliveryPerson.FirstName,
+                    DeliveryPersonLastName = existingDelivery.DeliveryPerson.LastName,
                     Order = existingDelivery.Order != null ? new OrderDTO
                     {
                         OrderId = existingDelivery.Order.OrderId,
@@ -302,9 +328,19 @@ namespace GroceryDeliveryAPI.Managers
         {
             try
             {
-                // Find all deliveries with DeliveryPersonId = 0 (unassigned)
+                // Find all deliveries with the system placeholder delivery person ID
+                var systemDeliveryPerson = await _context.Users
+                    .OfType<DeliveryPerson>()
+                    .FirstOrDefaultAsync(dp => dp.FirstName == "System" && dp.LastName == "Unassigned");
+
+                if (systemDeliveryPerson == null)
+                {
+                    return false; // No system delivery person found
+                }
+
+                // Find all deliveries assigned to the system placeholder
                 var unassignedDeliveries = await _context.Deliveries
-                    .Where(d => d.DeliveryPersonId == 0)
+                    .Where(d => d.DeliveryPersonId == systemDeliveryPerson.UserId)
                     .ToListAsync();
 
                 if (!unassignedDeliveries.Any())
@@ -334,7 +370,7 @@ namespace GroceryDeliveryAPI.Managers
                         anyAssigned = true;
                         await _context.SaveChangesAsync();
 
-                        Console.WriteLine($"Assigned driver {deliveryPerson.Name} to previously unassigned delivery {delivery.DeliveryId}");
+                        Console.WriteLine($"Assigned driver {deliveryPerson.FirstName + " " + deliveryPerson.LastName} to previously unassigned delivery {delivery.DeliveryId}");
                     }
                     catch (InvalidOperationException ex) when (ex.Message.Contains("No delivery drivers"))
                     {
@@ -370,7 +406,7 @@ namespace GroceryDeliveryAPI.Managers
 
                 foreach (var deliveryPerson1 in deliveryPersons)
                 {
-                    Console.WriteLine($"Delivery person: {deliveryPerson1.Name}, Status: {deliveryPerson1.Status}");
+                    Console.WriteLine($"Delivery person: {deliveryPerson1.FirstName + " " + deliveryPerson1.LastName}, Status: {deliveryPerson1.Status}");
                 }
 
                 // Pick random deliveryPerson from list
@@ -378,7 +414,7 @@ namespace GroceryDeliveryAPI.Managers
                 var randomIndex = random.Next(deliveryPersons.Count);
                 var deliveryPerson = deliveryPersons[randomIndex];
                 deliveryPerson.Status = DeliveryPerson.DeliveryPersonStatus.Busy;
-                Console.WriteLine($"Delivery person selected: {deliveryPerson.Name}");
+                Console.WriteLine($"Delivery person selected: {deliveryPerson.FirstName + " " + deliveryPerson.LastName}");
 
                 return deliveryPerson;
             }
