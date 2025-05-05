@@ -5,8 +5,6 @@ using GroceryDeliveryAPI.Seeding;
 
 using Microsoft.EntityFrameworkCore; // Added this using directive
 using System;
-using Microsoft.OpenApi.Models;
-using GroceryDeliveryAPI.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,35 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "GroceryDelivery API", Version = "v1" });
-
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header.",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT"
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
+builder.Services.AddSwaggerGen();
 
 
 
@@ -55,12 +25,6 @@ builder.Services.AddScoped<ProductManager>();
 
 // Register CategoryManager
 builder.Services.AddScoped<CategoryManager>();
-
-// Register UserManager
-builder.Services.AddScoped<UserManager>();
-
-// Register AuthHelpers
-builder.Services.AddScoped<AuthHelpers>();
 
 
 //Only run if database is empty - check is handled inside SeedDataAsync method
