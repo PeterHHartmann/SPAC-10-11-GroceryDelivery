@@ -24,7 +24,7 @@ export const AppNavigation: React.FC = () => {
 				<NavigationMenuList className='flex gap-2 ml-auto pr-4'>
 					<NavigationMenuItem asChild>
 						<NavigationMenuLink asChild>
-							<Link to={'/cart'} className='flex gap-2 text-xl items-center'>
+							<Link to={'/basket'} className='flex gap-2 text-xl items-center'>
 								<ShoppingBasket className='size-6' />
 							</Link>
 						</NavigationMenuLink>
