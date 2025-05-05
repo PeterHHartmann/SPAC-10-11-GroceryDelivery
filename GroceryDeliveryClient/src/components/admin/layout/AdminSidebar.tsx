@@ -47,11 +47,11 @@ export default function AdminSidebar() {
   const location = useLocation();
 
   const toggleSubItems = (title: string) => {
-    setExpandedItems(prev => 
-      prev.includes(title) 
+    setExpandedItems((prev) => {
+      return prev.includes(title) 
         ? prev.filter(item => item !== title)
-        : [...prev, title]
-    );
+        : [...prev, title];
+    });
   };
 
   return (
@@ -66,7 +66,12 @@ export default function AdminSidebar() {
         {navigation.map((item) => (
           <div key={item.title}>
             <button
-              onClick={() => item.subItems && toggleSubItems(item.title)}
+              type="button"
+              onClick={() => {
+                if (item.subItems) {
+                  toggleSubItems(item.title);
+                }
+              }}
               className={`w-full flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md ${
                 location.pathname === item.path
                   ? 'bg-gray-100 text-gray-900'
