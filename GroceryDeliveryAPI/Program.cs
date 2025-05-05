@@ -2,17 +2,20 @@ using GroceryDeliveryAPI.Context;
 using GroceryDeliveryAPI.Models;
 using GroceryDeliveryAPI.Managers;
 using GroceryDeliveryAPI.Seeding;
-
 using Microsoft.EntityFrameworkCore; // Added this using directive
 using System;
 using Microsoft.OpenApi.Models;
 using GroceryDeliveryAPI.Helpers;
+using GroceryDeliveryAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -45,8 +48,6 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
-
 builder.Services.AddDbContextPool<GroceryDeliveryContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -59,14 +60,27 @@ builder.Services.AddScoped<CategoryManager>();
 // Register UserManager
 builder.Services.AddScoped<UserManager>();
 
-// Register AuthHelpers
+// Register AuthHelper
 builder.Services.AddScoped<AuthHelpers>();
+
+// Register OrderManager
+builder.Services.AddScoped<OrderManager>();
+
+// Register DeliveryManager
+builder.Services.AddScoped<DeliveryManager>();
+
+// Register DeliveryPersonsManager
+builder.Services.AddScoped<DeliveryPersonsManager>();
+
+// Register background services
+builder.Services.AddHostedService<UnassignedDeliveryBackgroundService>();
 
 
 //Only run if database is empty - check is handled inside SeedDataAsync method
 
 //builder.Services.AddScoped<Seeder>();
 builder.Services.AddScoped<GroceryDataSeeder>();
+
 
 using(var scope = builder.Services.BuildServiceProvider().CreateScope())
 {

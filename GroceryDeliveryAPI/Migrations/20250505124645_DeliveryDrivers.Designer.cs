@@ -3,6 +3,7 @@ using System;
 using GroceryDeliveryAPI.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GroceryDeliveryAPI.Migrations
 {
     [DbContext(typeof(GroceryDeliveryContext))]
-    partial class GroceryDeliveryContextModelSnapshot : ModelSnapshot
+    [Migration("20250505124645_DeliveryDrivers")]
+    partial class DeliveryDrivers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -238,9 +241,6 @@ namespace GroceryDeliveryAPI.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("text");
-
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
@@ -258,6 +258,9 @@ namespace GroceryDeliveryAPI.Migrations
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
 
                     b.HasDiscriminator().HasValue("DeliveryPerson");
                 });
