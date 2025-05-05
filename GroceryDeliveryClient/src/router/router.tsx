@@ -3,6 +3,7 @@ import { IndexPage } from '@/pages/index/index-page';
 import { createBrowserRouter } from 'react-router-dom';
 import AdminDashboard from '@/pages/admin/dashboard/page';
 import OrdersPage from '@/pages/admin/orders/page';
+import OrderDetailsPage from '@/pages/admin/orders/[orderId]/page';
 
 export const router = createBrowserRouter([
 	{
@@ -22,8 +23,14 @@ export const router = createBrowserRouter([
 						Component: AdminDashboard
 					},
 					{
-						path: "orders",
-						Component: OrdersPage
+						path: "/admin/orders",
+						Component: OrdersPage,
+						children: [
+							{
+								path: "/admin/orders/:orderId",
+								Component: OrderDetailsPage
+							}
+						]
 					}
 				]
 			}
