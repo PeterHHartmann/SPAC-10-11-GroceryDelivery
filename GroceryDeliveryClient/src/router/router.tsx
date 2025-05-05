@@ -1,6 +1,7 @@
 import { RootLayout } from '@/layout/root-layout';
 import { IndexPage } from '@/pages/index/index-page';
 import { createBrowserRouter } from 'react-router-dom';
+import AdminDashboard from '@/pages/admin/dashboard/page';
 
 export const router = createBrowserRouter([
 	{
@@ -11,6 +12,15 @@ export const router = createBrowserRouter([
 				index: true,
 				path: "/",
 				Component: IndexPage
+			},
+			{
+				path: "/admin",
+				children: [
+					{
+						index: true,
+						Component: AdminDashboard
+					}
+				]
 			}
 		]
 	}
