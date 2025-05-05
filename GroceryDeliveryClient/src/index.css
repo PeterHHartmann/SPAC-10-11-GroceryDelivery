@@ -119,3 +119,15 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Chrome, Safari, Edge, Opera */
+input.stepper::-webkit-outer-spin-button,
+input.stepper::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number].stepper {
+  -moz-appearance: textfield;
+}
