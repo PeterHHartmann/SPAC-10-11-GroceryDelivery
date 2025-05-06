@@ -5,31 +5,38 @@ import { useState, type FC } from 'react';
 import PlaceholderImage from '@/assets/placeholder-image.svg';
 import { Link } from 'react-router-dom';
 import { Stepper } from '@/components/stepper';
+import { useShoppingBasket } from '@/hooks/shopping-basket';
 
 type ProductCardProps = {
 	product: Product;
 	onAddToCart?: (productId: Product['id']) => void;
 };
 
-export const ProductCard: FC<ProductCardProps> = ({ product, onAddToCart }) => {
-	const { id, name, image, price, description } = product;
-	const inStock = (product.stock && product.stock > 0);
+export const ProductCard: FC<ProductCardProps> = ({ product }) => {
+	const { id, name, image, price, description, stock } = product;
+	const inStock = (stock !== undefined && stock > 0);
+	const { addToBasket } = useShoppingBasket();
 
-	const [count, setCount] = useState<number>(1);
+	const [quantity, setQuantity] = useState<number>(1);
 
-	const handleCountDecrease = (): void => {
-		if (count <= 1) {
-			return;
-		}
-		setCount(count - 1);
+	const handleAddToCart = (): void => {
+		addToBasket({ product: String(id), quantity: quantity });
 		return;
 	};
 
-	const handleCountIncrease = (): void => {
-		if (count === product.stock) {
+	const handleQuantityDecrease = (): void => {
+		if (quantity <= 1) {
 			return;
 		}
-		setCount(count + 1);
+		setQuantity(quantity - 1);
+		return;
+	};
+
+	const handleQuantityIncrease = (): void => {
+		if (quantity === product.stock) {
+			return;
+		}
+		setQuantity(quantity + 1);
 		return;
 	};
 
@@ -61,16 +68,17 @@ export const ProductCard: FC<ProductCardProps> = ({ product, onAddToCart }) => {
 			</CardContent>
 			<CardFooter className="grid grid-flow-col grid-col-auto gap-2 p-4 pt-0">
 				<Stepper
-					count={count}
+					count={quantity}
 					min={0}
 					max={product.stock}
-					minusPressedHandler={handleCountDecrease}
-					plusPressedHandler={handleCountIncrease}
+					minusPressedHandler={handleQuantityDecrease}
+					plusPressedHandler={handleQuantityIncrease}
 				/>
 				<Button
-					className=""
 					disabled={!inStock}
-					onClick={() => onAddToCart?.(id)}
+					size='lg'
+					variant={'default'}
+					onClick={() => { handleAddToCart(); }}
 				>
 					{inStock ? "Add to Cart" : "Unavailable"}
 				</Button>
