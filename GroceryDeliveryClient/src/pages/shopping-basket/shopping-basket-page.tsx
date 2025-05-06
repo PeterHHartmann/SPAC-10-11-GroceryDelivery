@@ -45,7 +45,7 @@ export const ShoppingBasketPage: FC = () => {
 		<div className='w-full flex'>
 			<section className='flex flex-col w-3/4'>
 				{basket.map((item) => (
-					<ShoppingBasketItem key={`cart-item-${String(item.product.id)}`} product={item.product} quantity={item.quantity} />
+					<ShoppingBasketItem key={`shoppingbasket-item-${String(item.product.id)}`} product={item.product} quantity={item.quantity} />
 				))}
 			</section>
 			<Separator orientation='vertical' className='mt-auto' />

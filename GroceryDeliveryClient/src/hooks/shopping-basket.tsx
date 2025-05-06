@@ -43,11 +43,11 @@ export const ShoppingBasketProvider = ({ children }: ShoppingBasketProviderProps
 
 	const addToBasket = useCallback(({ product, quantity }: ShoppingBasketItem) => {
 		const basketCopy = basket.slice();
-		// Find index of product if its already in cart
+		// Find index of product if its already in basket
 		// console.log('we got here', index);
 		const index = basketCopy.findIndex(item => item.product.id === product.id);
 		if (index !== -1) {
-			console.log('found item in cart');
+			console.log('found item in basket');
 			// If found, increase the quantity
 			let updatedQuantity = basketCopy[index].quantity + quantity;
 			if (updatedQuantity > product.stock) {
@@ -55,7 +55,7 @@ export const ShoppingBasketProvider = ({ children }: ShoppingBasketProviderProps
 			}
 			basketCopy[index].quantity = updatedQuantity;
 		} else {
-			console.log('item not in cart');
+			console.log('item not in basket');
 			// If not found, add new product
 			basketCopy.push({ product, quantity });
 		}
@@ -67,7 +67,7 @@ export const ShoppingBasketProvider = ({ children }: ShoppingBasketProviderProps
 		console.log('remove called');
 
 		const basketCopy = basket.slice();
-		// Find index of product in cart
+		// Find index of product in basket
 		const index = basketCopy.findIndex(item => item.product === product);
 
 		if (index !== -1) {

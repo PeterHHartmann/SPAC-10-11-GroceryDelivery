@@ -9,7 +9,6 @@ import { useShoppingBasket } from '@/hooks/shopping-basket';
 
 type ProductCardProps = {
 	product: Product;
-	onAddToCart?: (productId: Product['id']) => void;
 };
 
 export const ProductCard: FC<ProductCardProps> = ({ product }) => {
@@ -19,7 +18,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
 	const [quantity, setQuantity] = useState<number>(1);
 
-	const handleAddToCart = (): void => {
+	const handleAddToBasket = (): void => {
 		addToBasket({ product: product, quantity: quantity });
 		return;
 	};
@@ -78,9 +77,9 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 					disabled={!inStock}
 					size='lg'
 					variant={'default'}
-					onClick={() => { handleAddToCart(); }}
+					onClick={() => { handleAddToBasket(); }}
 				>
-					{inStock ? "Add to Cart" : "Unavailable"}
+					{inStock ? "Add to Basket" : "Unavailable"}
 				</Button>
 			</CardFooter>
 		</Card>
