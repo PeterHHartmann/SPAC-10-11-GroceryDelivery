@@ -14,13 +14,13 @@ type ProductCardProps = {
 
 export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 	const { id, name, image, price, description, stock } = product;
-	const inStock = (stock !== undefined && stock > 0);
+	const inStock = (stock > 0);
 	const { addToBasket } = useShoppingBasket();
 
 	const [quantity, setQuantity] = useState<number>(1);
 
 	const handleAddToCart = (): void => {
-		addToBasket({ product: String(id), quantity: quantity });
+		addToBasket({ product: product, quantity: quantity });
 		return;
 	};
 

@@ -38,7 +38,7 @@ export const AppNavigation: React.FC = () => {
 								<div className='relative'>
 									{basketCount > 0
 										? <div className='absolute bg-destructive aspect-square min-w-[20px] w-max rounded-full top-[-10px] right-[-10px] flex justify-center items-center p-[2px]'>
-											<p className='text-[12px]'>
+											<p className='text-[12px] text-background font-bold'>
 												{basketCount < 100
 													? String(basketCount)
 													: String(99) + '+'

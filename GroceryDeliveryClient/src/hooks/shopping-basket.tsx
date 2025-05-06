@@ -1,10 +1,10 @@
 import { ShoppingBasketSchema } from '@/schema';
-import type { ShoppingBasket } from '@/types';
+import type { Product, ShoppingBasket } from '@/types';
 import { createContext, use, useCallback, useEffect, useMemo, useState } from 'react';
 
 type ShoppingBasketProviderProps = { children: React.ReactNode; };
-type ShoppingCartActionData = {
-	product: string,
+type ShoppingBasketItem = {
+	product: Product,
 	quantity: number;
 };
 
@@ -32,8 +32,8 @@ const encodeBasket = (): ShoppingBasket | null => {
 const ShoppingBasketContext = createContext<
 	{
 		basket: ShoppingBasket,
-		addToBasket: ({ product, quantity }: ShoppingCartActionData) => void;
-		removeFromBasket: ({ product, quantity }: ShoppingCartActionData) => void;
+		addToBasket: (item: ShoppingBasketItem) => void;
+		removeFromBasket: (item: ShoppingBasketItem) => void;
 	} | undefined
 >(undefined);
 
@@ -41,15 +41,19 @@ export const ShoppingBasketProvider = ({ children }: ShoppingBasketProviderProps
 	// const [state, dispatch] = useReducer(basketReducer, { basket: encodeBasket() || [] });
 	const [basket, setBasket] = useState<ShoppingBasket>(encodeBasket() || []);
 
-	const addToBasket = useCallback(({ product, quantity }: ShoppingCartActionData) => {
+	const addToBasket = useCallback(({ product, quantity }: ShoppingBasketItem) => {
 		const basketCopy = basket.slice();
 		// Find index of product if its already in cart
 		// console.log('we got here', index);
-		const index = basketCopy.findIndex(item => item.product === product);
+		const index = basketCopy.findIndex(item => item.product.id === product.id);
 		if (index !== -1) {
 			console.log('found item in cart');
 			// If found, increase the quantity
-			basketCopy[index].quantity += quantity;
+			let updatedQuantity = basketCopy[index].quantity + quantity;
+			if (updatedQuantity > product.stock) {
+				updatedQuantity = product.stock;
+			}
+			basketCopy[index].quantity = updatedQuantity;
 		} else {
 			console.log('item not in cart');
 			// If not found, add new product
@@ -59,7 +63,9 @@ export const ShoppingBasketProvider = ({ children }: ShoppingBasketProviderProps
 		return;
 	}, [basket]);
 
-	const removeFromBasket = useCallback(({ product, quantity }: ShoppingCartActionData): void => {
+	const removeFromBasket = useCallback(({ product, quantity }: ShoppingBasketItem): void => {
+		console.log('remove called');
+
 		const basketCopy = basket.slice();
 		// Find index of product in cart
 		const index = basketCopy.findIndex(item => item.product === product);
@@ -74,6 +80,7 @@ export const ShoppingBasketProvider = ({ children }: ShoppingBasketProviderProps
 				basketCopy.splice(index, 1);
 			}
 		}
+		setBasket(basketCopy);
 		return;
 	}, [basket]);
 

@@ -1,13 +1,6 @@
-import type { ShoppingBasketSchema } from '@/schema';
+import type { ProductSchema, ShoppingBasketItemSchema, ShoppingBasketSchema } from '@/schema';
 import { z } from 'zod';
 
-export type Product = {
-	id: string | number;
-	name: string;
-	image: string | null;
-	price: number;
-	description?: string;
-	stock?: number;
-};
-
+export type Product = z.infer<typeof ProductSchema>;
+export type ShoppingBasketItem = z.infer<typeof ShoppingBasketItemSchema>;
 export type ShoppingBasket = z.infer<typeof ShoppingBasketSchema>;
