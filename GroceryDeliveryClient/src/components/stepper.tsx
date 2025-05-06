@@ -26,7 +26,12 @@ export const Stepper: FC<StepperProps> = ({ count, max, min, minusPressedHandler
 			>
 				<MinusCircle size={8} />
 			</Button>
-			<Input value={count} type={'number'} className='stepper appearance-none max-w-12' />
+			<Input
+				value={count}
+				onChange={() => {}}
+				type={'number'}
+				className='stepper appearance-none max-w-12'
+			/>
 			<Button
 				size={'icon'}
 				onClick={plusPressedHandler}
