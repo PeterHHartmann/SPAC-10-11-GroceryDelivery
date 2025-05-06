@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Product } from '@/types';
-import type { FC } from 'react';
+import { useState, type FC } from 'react';
 import PlaceholderImage from '@/assets/placeholder-image.svg';
 import { Link } from 'react-router-dom';
+import { Stepper } from '@/components/stepper';
 
 type ProductCardProps = {
 	product: Product;
@@ -13,6 +14,24 @@ type ProductCardProps = {
 export const ProductCard: FC<ProductCardProps> = ({ product, onAddToCart }) => {
 	const { id, name, image, price, description } = product;
 	const inStock = (product.stock && product.stock > 0);
+
+	const [count, setCount] = useState<number>(1);
+
+	const handleCountDecrease = (): void => {
+		if (count <= 1) {
+			return;
+		}
+		setCount(count - 1);
+		return;
+	};
+
+	const handleCountIncrease = (): void => {
+		if (count === product.stock) {
+			return;
+		}
+		setCount(count + 1);
+		return;
+	};
 
 	return (
 		<Card className="w-full max-w-sm rounded-2xl shadow-md p-0 overflow-hidden">
@@ -30,16 +49,26 @@ export const ProductCard: FC<ProductCardProps> = ({ product, onAddToCart }) => {
 					<CardTitle className="text-xl font-semibold text-primary">{name}</CardTitle>
 				</Link>
 				{description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
-				<p className="text-lg font-bold text-green-600 mt-2">${price.toFixed(2)}</p>
-				<div className='min-h-4'>
-					{!inStock && (
-						<p className="text-sm text-red-500 font-medium">Out of stock</p>
-					)}
+				<div className='grid grid-cols-2 items-center mt-2'>
+					<p className="text-lg font-bold text-green-600">${price.toFixed(2)}</p>
+					<div className='flex w-full justify-end items-center'>
+						{!inStock
+							? (<p className="text-sm text-red-500 font-medium">Out of stock</p>)
+							: (<p>Stock: {product.stock}</p>)
+						}
+					</div>
 				</div>
 			</CardContent>
-			<CardFooter className="p-4 pt-0">
+			<CardFooter className="grid grid-flow-col grid-col-auto gap-2 p-4 pt-0">
+				<Stepper
+					count={count}
+					min={0}
+					max={product.stock}
+					minusPressedHandler={handleCountDecrease}
+					plusPressedHandler={handleCountIncrease}
+				/>
 				<Button
-					className="w-full"
+					className=""
 					disabled={!inStock}
 					onClick={() => onAddToCart?.(id)}
 				>
