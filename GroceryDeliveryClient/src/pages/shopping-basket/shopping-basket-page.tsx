@@ -1,71 +1,12 @@
 import { Separator } from '@/components/ui/separator';
-import type { Product } from '@/types';
-import { useState, type FC } from 'react';
+import type { Product, ShoppingBasket } from '@/types';
+import { useEffect, useMemo, type FC } from 'react';
 import PlaceholderImage from '@/assets/placeholder-image.svg';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-
-type BasketItem = {
-	product: Product,
-	quantity: number;
-};
-
-const shoppingBasket: BasketItem[] = [
-	{
-		product: {
-			id: 1,
-			name: "Golden Delicious Apple",
-			image: null,
-			price: 9.99,
-		},
-		quantity: 4
-	},
-	{
-		product: {
-			id: 2,
-			name: "Granny Smith Apple",
-			image: null,
-			price: 8.73,
-		},
-		quantity: 2
-	},
-	{
-		product: {
-			id: 3,
-			name: "Yoghurt",
-			image: null,
-			price: 4.5,
-		},
-		quantity: 1
-	},
-	{
-		product: {
-			id: 4,
-			name: "Milk",
-			image: null,
-			price: 1.25,
-		},
-		quantity: 9
-	},
-	{
-		product: {
-			id: 5,
-			name: "Pear",
-			image: null,
-			price: 9.99,
-		},
-		quantity: 3
-	},
-	{
-		product: {
-			id: 6,
-			name: "Organic Banana",
-			image: null,
-			price: 3,
-		},
-		quantity: 20
-	},
-];
+import { Link, useNavigate } from 'react-router-dom';
+import { useShoppingBasket } from '@/hooks/shopping-basket';
+import { Stepper } from '@/components/stepper';
+import { Trash } from 'lucide-react';
 
 const PACKING_FEE = 4.51;
 const DELIVERY_FEE = 10.99;
@@ -76,7 +17,7 @@ const quantityTotal = (price: number, quantity: number): string => {
 	return total.toFixed(2);
 };
 
-const calcSubtotal = (): number => {
+const calcSubtotal = (shoppingBasket: ShoppingBasket): number => {
 	return shoppingBasket.reduce((total, item) => {
 		return total + item.product.price * item.quantity;
 	}, 0);
@@ -88,30 +29,23 @@ const calcTotal = (price: number): number => {
 };
 
 export const ShoppingBasketPage: FC = () => {
+	const navigate = useNavigate();
+	const { basket } = useShoppingBasket();
+	const subtotal: number = useMemo(() => {
+		return calcSubtotal(basket);
+	}, [basket]);
 
-	const [subtotal] = useState<number>(calcSubtotal());
+	useEffect(() => {
+		if (basket.length <= 0) {
+			void navigate('/');
+		}
+	}, [basket, navigate]);
 
 	return (
 		<div className='w-full flex'>
-			<section className='grid grid-flow-row w-3/4'>
-				{shoppingBasket.map((item) => (
-					<div key={`cart-item-${String(item.product.id)}`} className=''>
-						<div className='grid grid-cols-5 gap-2 p-4 justify-between items-center'>
-							<div className="block aspect-auto h-32 w-32 p-0 relative bg-background">
-								<img
-									src={item.product.image || PlaceholderImage}
-									alt={item.product.name}
-									className="absolute w-full h-full object-cover mix-blend-difference"
-								/>
-							</div>
-							<p className='text-lg font-bold'>{item.product.name}</p>
-							<p className="text-lg font-bold">Quantity: {item.quantity}</p>
-							<p className="text-lg font-bold text-green-600">${item.product.price.toFixed(2)}</p>
-							<p className="text-lg font-bold text-green-600">${quantityTotal(item.product.price, item.quantity)}</p>
-
-						</div>
-						<Separator orientation='horizontal' className='mt-2' />
-					</div>
+			<section className='flex flex-col w-3/4'>
+				{basket.map((item) => (
+					<ShoppingBasketItem key={`shoppingbasket-item-${String(item.product.id)}`} product={item.product} quantity={item.quantity} />
 				))}
 			</section>
 			<Separator orientation='vertical' className='mt-auto' />
@@ -154,6 +88,56 @@ export const ShoppingBasketPage: FC = () => {
 					</div>
 				</div>
 			</aside>
+		</div>
+	);
+};
+
+type ShoppingBasketItemProps = {
+	product: Product;
+	quantity: number;
+};
+
+const ShoppingBasketItem: FC<ShoppingBasketItemProps> = ({ product, quantity }) => {
+	const { addToBasket, removeFromBasket } = useShoppingBasket();
+
+	return (
+		<div>
+			<div className='grid grid-cols-6 gap-2 p-4 justify-between items-center'>
+				<div className="block aspect-auto h-32 w-32 p-0 relative bg-background">
+					<img
+						src={product.image || PlaceholderImage}
+						alt={product.name}
+						className="absolute w-full h-full object-cover mix-blend-difference"
+					/>
+				</div>
+				<p className='text-lg font-bold'>{product.name}</p>
+				<div className='w-max flex flex-col items-center'>
+					<p className="text-lg font-bold">Quantity:</p>
+					<Stepper
+						count={quantity}
+						min={0} max={product.stock}
+						minusPressedHandler={() => { removeFromBasket({ product, quantity: 1 }); }}
+						plusPressedHandler={() => { addToBasket({ product, quantity: 1 }); }}
+					/>
+				</div>
+				<div className='ml-auto'>
+					<p>Price per unit:</p>
+					<p className="text-lg font-bold text-green-600 ml-auto">${product.price.toFixed(2)}</p>
+				</div>
+				<div className='ml-auto'>
+					<p>Price combined:</p>
+					<p className="text-lg font-bold text-green-600">${quantityTotal(product.price, quantity)}</p>
+				</div>
+				<Button
+					variant={'destructive'}
+					size={'icon'}
+					className='ml-auto mr-4'
+					onClick={() => { removeFromBasket({ product, quantity }); }}
+				>
+					<Trash />
+				</Button>
+			</div>
+			<Separator orientation='horizontal' className='mt-2' />
 		</div>
 	);
 };
