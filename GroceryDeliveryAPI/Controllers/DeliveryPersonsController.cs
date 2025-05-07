@@ -86,6 +86,7 @@ namespace GroceryDeliveryAPI.Controllers
             }
         }
         */
+        /*
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDeliveryPerson(int id, [FromBody] DeliveryPerson deliveryPerson)
         {
@@ -107,7 +108,7 @@ namespace GroceryDeliveryAPI.Controllers
                 return BadRequest($"Error updating delivery person: {ex.Message}");
             }
         }
-
+        */
         [HttpDelete("{id}")]
         public IActionResult DeleteDeliveryPerson(int id)
         {
