@@ -1,12 +1,18 @@
 import { z } from 'zod';
 
 export const ProductSchema = z.object({
-	id: z.number(),
-	name: z.string(),
+	productId: z.number(),
+	productName: z.string(),
+	categoryId: z.number(),
 	price: z.number(),
-	image: z.string().nullable(),
+	stockQuantity: z.number(),
+	imagePath: z.string().nullable(),
 	description: z.string().optional(),
-	stock: z.number()
+});
+
+export const CategorySchema = z.object({
+	id: z.number(),
+	name: z.string()
 });
 
 export const ShoppingBasketItemSchema = z.object({

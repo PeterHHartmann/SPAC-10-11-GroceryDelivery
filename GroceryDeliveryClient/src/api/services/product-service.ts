@@ -1,37 +1,39 @@
 import axiosClient from "@/api/axiosClient";
-import { ProductEndpoints } from '@/api/endpoints';
+import { ProductEndpoints } from '@/api/endpoints/product-endpoints';
 import { convertToURLSearchParams } from '@/lib/utils';
-import { Product, type AllProductsResponse, type PaginationParams, type ProductQueryParams } from "@/types";
+import { Product, type PaginationParams, type ProductQueryParams } from "@/types";
+import type { AxiosError, AxiosResponse } from 'axios';
 
 /**
- * Service class for handling product-related API calls
+ * Service for handling product-related API calls
  */
-export default class ProductService {
+export const ProductService = {
 	/**
 	 * Fetch all products with optional sorting and ordering
 	 * @param params - Sorting and ordering parameters
 	 * @returns Promise with all product data
 	 */
-	static async getAll(
+	async getAll(
 		params?: ProductQueryParams & PaginationParams
-	): Promise<AllProductsResponse> {
+	): Promise<Product[]> {
 
 		const queryParams = params ? convertToURLSearchParams(params) : "";
-		const response = await axiosClient.get(
-			ProductEndpoints.getAll(queryParams)
+		const response = await axiosClient.get<string, AxiosResponse<Product[], AxiosError>>(
+			ProductEndpoints.getAll.url(queryParams)
 		);
-
-		return response.data;
-	}
+		const { data } = response;
+		return data;
+	},
 
 	/**
 	 * Fetch a single product by ID
 	 * @param id - Product ID
 	 * @returns Promise with product data
 	 */
-	static async getById(id: string): Promise<Product> {
-		const response = await axiosClient.get(ProductEndpoints.getById(id));
-		return response.data;
+	async getById(id: number): Promise<Product> {
+		const response = await axiosClient.get<string, AxiosResponse<Product, AxiosError>>(ProductEndpoints.getById.url(id));
+		const { data } = response;
+		return data;
 	}
 
 	// /**
@@ -92,4 +94,4 @@ export default class ProductService {
 	//     );
 	//     return response.data;
 	// }
-}
+};

@@ -1,10 +1,10 @@
 export const ProductEndpoints = {
 	getAll: {
-		url: (params: string) => `/products${params ? `?${params}` : ""}` as const,
+		url: (params: string) => `/product${params ? `?${params}` : ""}` as const,
 		key: (params: string) => ['products', params] as const
 	},
 	getById: {
-		url: (id: number) => `/products/${String(id)}` as const,
+		url: (id: number) => `/product/${String(id)}` as const,
 		key: (id: number) => ['products', id] as const
 	}
 };

@@ -45,7 +45,7 @@ export const ShoppingBasketPage: FC = () => {
 		<div className='w-full flex'>
 			<section className='flex flex-col w-3/4'>
 				{basket.map((item) => (
-					<ShoppingBasketItem key={`shoppingbasket-item-${String(item.product.id)}`} product={item.product} quantity={item.quantity} />
+					<ShoppingBasketItem key={`shoppingbasket-item-${String(item.product.productId)}`} product={item.product} quantity={item.quantity} />
 				))}
 			</section>
 			<Separator orientation='vertical' className='mt-auto' />
@@ -105,17 +105,17 @@ const ShoppingBasketItem: FC<ShoppingBasketItemProps> = ({ product, quantity }) 
 			<div className='grid grid-cols-6 gap-2 p-4 justify-between items-center'>
 				<div className="block aspect-auto h-32 w-32 p-0 relative bg-background">
 					<img
-						src={product.image || PlaceholderImage}
-						alt={product.name}
+						src={product.imagePath || PlaceholderImage}
+						alt={product.productName}
 						className="absolute w-full h-full object-cover mix-blend-difference"
 					/>
 				</div>
-				<p className='text-lg font-bold'>{product.name}</p>
+				<p className='text-lg font-bold'>{product.productName}</p>
 				<div className='w-max flex flex-col items-center'>
 					<p className="text-lg font-bold">Quantity:</p>
 					<Stepper
 						count={quantity}
-						min={0} max={product.stock}
+						min={0} max={product.stockQuantity}
 						minusPressedHandler={() => { removeFromBasket({ product, quantity: 1 }); }}
 						plusPressedHandler={() => { addToBasket({ product, quantity: 1 }); }}
 					/>
