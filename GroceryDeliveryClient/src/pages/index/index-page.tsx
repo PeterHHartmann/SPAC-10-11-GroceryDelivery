@@ -14,9 +14,9 @@ const categories = [
 
 const placeholderProducts: Product[] = [
 	{
-		id: 1,
-		name: 'Golden Delicious Apple',
-		image: null,
+		productId: 1,
+		productName: 'Golden Delicious Apple',
+		imagePath: null,
 		price: 4,
 		description: `
 									Lorem ipsum dolor sit amet, 
@@ -25,13 +25,13 @@ const placeholderProducts: Product[] = [
 									pulvinar sed justo. In gravida iaculis elit, 
 									vitae pretium nulla pharetra a.
 									`,
-		stock: 0
-
+		stockQuantity: 0,
+		categoryId: 1
 	},
 	{
-		id: 2,
-		name: 'Yoghurt',
-		image: null,
+		productId: 2,
+		productName: 'Yoghurt',
+		imagePath: null,
 		price: 7,
 		description: `
 									Lorem ipsum dolor sit amet, 
@@ -40,13 +40,13 @@ const placeholderProducts: Product[] = [
 									pulvinar sed justo. In gravida iaculis elit, 
 									vitae pretium nulla pharetra a.
 									`,
-		stock: 2
-
+		stockQuantity: 2,
+		categoryId: 1
 	},
 	{
-		id: 3,
-		name: 'Ground Beef',
-		image: null,
+		productId: 3,
+		productName: 'Ground Beef',
+		imagePath: null,
 		price: 10,
 		description: `
 									Lorem ipsum dolor sit amet, 
@@ -55,13 +55,13 @@ const placeholderProducts: Product[] = [
 									pulvinar sed justo. In gravida iaculis elit, 
 									vitae pretium nulla pharetra a.
 									`,
-		stock: 10
-
+		stockQuantity: 10,
+		categoryId: 1
 	},
 	{
-		id: 4,
-		name: 'Bartlett Pear',
-		image: null,
+		productId: 4,
+		productName: 'Bartlett Pear',
+		imagePath: null,
 		price: 9,
 		description: `
 									Lorem ipsum dolor sit amet, 
@@ -70,13 +70,13 @@ const placeholderProducts: Product[] = [
 									pulvinar sed justo. In gravida iaculis elit, 
 									vitae pretium nulla pharetra a.
 									`,
-		stock: 0
-
+		stockQuantity: 0,
+		categoryId: 1
 	},
 	{
-		id: 5,
-		name: 'Organic Banana',
-		image: null,
+		productId: 5,
+		productName: 'Organic Banana',
+		imagePath: null,
 		price: 2,
 		description: `
 									Lorem ipsum dolor sit amet, 
@@ -85,7 +85,8 @@ const placeholderProducts: Product[] = [
 									pulvinar sed justo. In gravida iaculis elit, 
 									vitae pretium nulla pharetra a.
 									`,
-		stock: 100
+		stockQuantity: 100,
+		categoryId: 1
 
 	}
 ];
@@ -121,7 +122,7 @@ export const IndexPage: FC = () => {
 				<SidebarInset>
 					<section className='w-full h-full p-4 grid grid-cols-3 grid-flow-row gap-2'>
 						{placeholderProducts.map((product, index) => (
-							<ProductCard key={`product-${String(product.id)}-card-${String(index)}`} product={product} />
+							<ProductCard key={`productcard-${String(product.productId)}-card-${String(index)}`} product={product} />
 						))}
 					</section>
 				</SidebarInset>

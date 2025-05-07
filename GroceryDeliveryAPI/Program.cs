@@ -105,6 +105,12 @@ using (var scope = builder.Services.BuildServiceProvider().CreateScope())
 }
 */
 
+var AllowSpecificOrigins = "AllowFrontendOrigin";
+builder.Services.AddCors(o => o.AddPolicy(AllowSpecificOrigins, builder =>
+{
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -112,6 +118,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(AllowSpecificOrigins);
 }
 
 // Configure static files for product images
