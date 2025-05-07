@@ -1,4 +1,5 @@
 ﻿using GroceryDeliveryAPI.Context;
+using GroceryDeliveryAPI.DTO_s;
 using GroceryDeliveryAPI.Managers;
 using GroceryDeliveryAPI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -149,7 +150,7 @@ namespace UnitTests
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
-            var updatedUser = new User { UserId = 1, FirstName = "UpdatedJohn", LastName = "UpdatedDoe", Email = "updatedjohn@example.com", Password = "newpassword" };
+            var updatedUser = new UpdateUserDTO { FirstName = "UpdatedJohn", LastName = "UpdatedDoe", Email = "updatedjohn@example.com", Password = "newpassword" };
 
             // Act
             await _userManager.UpdateUserAsync(1, updatedUser);
@@ -166,7 +167,7 @@ namespace UnitTests
         public async Task UpdateUserAsync_WhenUserDoesNotExist_ThrowsInvalidOperationException()
         {
             // Arrange
-            var updatedUser = new User { UserId = 1, FirstName = "UpdatedJohn", LastName = "UpdatedDoe", Email = "updatedjohn@example.com", Password = "newpassword" };
+            var updatedUser = new UpdateUserDTO {   FirstName = "UpdatedJohn", LastName = "UpdatedDoe", Email = "updatedjohn@example.com", Password = "newpassword" };
 
             // Act
             await _userManager.UpdateUserAsync(1, updatedUser);
