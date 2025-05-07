@@ -81,8 +81,7 @@ builder.Services.AddHostedService<UnassignedDeliveryBackgroundService>();
 //builder.Services.AddScoped<Seeder>();
 builder.Services.AddScoped<GroceryDataSeeder>();
 
-
-using(var scope = builder.Services.BuildServiceProvider().CreateScope())
+using (var scope = builder.Services.BuildServiceProvider().CreateScope())
 {
     // Get the db context
     var dbContext = scope.ServiceProvider.GetRequiredService<GroceryDeliveryContext>();
@@ -92,7 +91,7 @@ using(var scope = builder.Services.BuildServiceProvider().CreateScope())
 
     // Now proceed with data import only if database is empty
     var seeder = scope.ServiceProvider.GetRequiredService<GroceryDataSeeder>();
-    await seeder.ImportDataAsync("Seeding\\GroceryStoreDataset\\dataset\\Groceries.CSV");
+    await seeder.ImportDataAsync(Path.Combine(Directory.GetCurrentDirectory(), "Seeding/GroceryStoreDataset/dataset/Groceries.csv"));
 }
 /*
 builder.Services.AddScoped<Seeder>();
