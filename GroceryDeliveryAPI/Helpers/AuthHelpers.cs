@@ -15,8 +15,6 @@ namespace GroceryDeliveryAPI.Helpers
             _configuration = configuration;
         }
 
-
-
         // Generate JWT Token
         public string GenerateJWTToken(User user)
         {
@@ -44,5 +42,6 @@ namespace GroceryDeliveryAPI.Helpers
                 throw new Exception("Error generating JWT token", e);
             }
         }
+
     }
 }
