@@ -3,7 +3,6 @@ import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHead
 import { useIsMobile } from '@/hooks/mobile';
 import { ProductCard } from '@/components/product-card';
 import type { Product } from '@/types';
-import { useCategories } from '@/api/queries/category-queries';
 
 const categories = [
 	'Fruit',
@@ -94,11 +93,6 @@ const placeholderProducts: Product[] = [
 
 export const IndexPage: FC = () => {
 	const isMobile = useIsMobile();
-
-	const { data } = useCategories();
-
-	console.log(data);
-
 
 	return (
 		<div className='w-full h-full'>

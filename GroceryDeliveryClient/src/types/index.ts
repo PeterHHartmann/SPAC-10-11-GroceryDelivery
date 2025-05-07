@@ -15,8 +15,8 @@ export type ApiError = {
 export type Product = z.infer<typeof ProductSchema>;
 
 export type ProductQueryParams = {
-	searchTerm: string;
-	categoryId: Category['id'];
+	searchTerm?: string;
+	categoryId?: Category['id'];
 };
 
 export type ShoppingBasketItem = z.infer<typeof ShoppingBasketItemSchema>;
