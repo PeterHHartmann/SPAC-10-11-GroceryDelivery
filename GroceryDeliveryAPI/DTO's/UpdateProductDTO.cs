@@ -1,11 +1,9 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace GroceryDeliveryAPI.DTOs
+namespace GroceryDeliveryAPI.DTO_s
 {
-    public class ProductDTO
+    public class UpdateProductDTO
     {
-        public int ProductId { get; set; }
-
         [Required]
         [StringLength(100)]
         public string ProductName { get; set; } = string.Empty;
@@ -25,4 +23,4 @@ namespace GroceryDeliveryAPI.DTOs
         [StringLength(4000)]
         public string Description { get; set; } = string.Empty;
     }
-} 
+}

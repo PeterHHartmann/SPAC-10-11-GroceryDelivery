@@ -1,4 +1,5 @@
 ﻿using GroceryDeliveryAPI.Context;
+using GroceryDeliveryAPI.DTO_s;
 using GroceryDeliveryAPI.Managers;
 using GroceryDeliveryAPI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -170,7 +171,7 @@ namespace UnitTests
             await _context.Deliveries.AddAsync(delivery);
             await _context.SaveChangesAsync();
 
-            var updatedDelivery = new Delivery
+            var updatedDelivery = new UpdateDeliveryDTO
             {
                 DeliveryId = delivery.DeliveryId,
                 DeliveryPersonId = deliveryPerson.UserId,
@@ -362,7 +363,7 @@ namespace UnitTests
         public async Task UpdateDelivery_WithInvalidId_ThrowsArgumentException()
         {
             // Arrange
-            var delivery = new Delivery { DeliveryId = 1 };
+            var delivery = new UpdateDeliveryDTO { DeliveryId = 1 };
 
             // Act
             await _deliveryManager.UpdateDelivery(-1, delivery);

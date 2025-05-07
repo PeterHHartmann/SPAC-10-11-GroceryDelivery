@@ -71,6 +71,7 @@ namespace GroceryDeliveryAPI.Managers
             }
         }
         */
+        /*
         public async Task<bool> UpdateDeliveryPersonAsync(int id, DeliveryPerson deliveryPerson)
         {
             try
@@ -97,7 +98,7 @@ namespace GroceryDeliveryAPI.Managers
                 throw new InvalidOperationException($"Error updating deliveryPerson: {ex.Message}", ex);
             }
         }
-
+        */
         public Task DeleteDeliveryPerson(int id)
         {
             var deliveryPerson = _context.Users.Find(id);

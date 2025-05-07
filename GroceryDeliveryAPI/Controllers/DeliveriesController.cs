@@ -1,4 +1,5 @@
-﻿using GroceryDeliveryAPI.Managers;
+﻿using GroceryDeliveryAPI.DTO_s;
+using GroceryDeliveryAPI.Managers;
 using GroceryDeliveryAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -69,7 +70,7 @@ namespace GroceryDeliveryAPI.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateDelivery(int id, [FromBody] Delivery delivery)
+        public async Task<IActionResult> UpdateDelivery(int id, [FromBody] UpdateDeliveryDTO delivery)
         {
             try
             {

@@ -63,7 +63,7 @@ namespace GroceryDeliveryAPI.Controllers
 
         // PUT: api/user/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] User user)
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UpdateUserDTO user)
         {
             try
             {
@@ -71,10 +71,7 @@ namespace GroceryDeliveryAPI.Controllers
                 {
                     return BadRequest("User object is null");
                 }
-                if (id != user.UserId)
-                {
-                    return BadRequest("User ID mismatch");
-                }
+               
                 await _userManager.UpdateUserAsync(id, user);
                 return NoContent();
             }

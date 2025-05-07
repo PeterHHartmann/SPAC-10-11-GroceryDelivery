@@ -179,36 +179,77 @@ namespace GroceryDeliveryAPI.Managers
             }
         }
 
-        public async Task<Delivery> UpdateDelivery(int id, Delivery updatedDelivery)
+        public async Task<DeliveryDTO> UpdateDelivery(int id, UpdateDeliveryDTO updateDto)
         {
             try
             {
-                if (updatedDelivery == null)
+                if (updateDto == null)
                 {
-                    throw new ArgumentNullException(nameof(updatedDelivery), "Delivery cannot be null");
+                    throw new ArgumentNullException(nameof(updateDto), "Update DTO cannot be null");
                 }
 
                 if (id <= 0)
                 {
-                    throw new ArgumentException("Delivery ID must be greater than zero", nameof(updatedDelivery.DeliveryId));
+                    throw new ArgumentException("Delivery ID must be greater than zero", nameof(id));
                 }
 
                 // Verify Delivery exists
-                var existingDelivery = await _context.Deliveries.FindAsync(id);
+                var existingDelivery = await _context.Deliveries
+                    .Include(d => d.DeliveryPerson)
+                    .Include(d => d.Order)
+                        .ThenInclude(o => o.OrderItems)
+                            .ThenInclude(oi => oi.Product)
+                    .FirstOrDefaultAsync(d => d.DeliveryId == id);
+
                 if (existingDelivery == null)
                 {
                     throw new InvalidOperationException($"Delivery with ID {id} not found");
                 }
 
                 // Update the existing entity's properties
-                existingDelivery.DeliveryPersonId = updatedDelivery.DeliveryPersonId;
-                existingDelivery.OrderId = updatedDelivery.OrderId;
-                existingDelivery.Status = updatedDelivery.Status;
-                existingDelivery.EstimatedDeliveryTime = updatedDelivery.EstimatedDeliveryTime;
-                existingDelivery.PickupTime = updatedDelivery.PickupTime;
+                existingDelivery.DeliveryPersonId = updateDto.DeliveryPersonId;
+                existingDelivery.OrderId = updateDto.OrderId;
+                existingDelivery.Status = updateDto.Status;
+                existingDelivery.EstimatedDeliveryTime = updateDto.EstimatedDeliveryTime;
+                existingDelivery.PickupTime = updateDto.PickupTime;
 
                 // Save changes
                 await _context.SaveChangesAsync();
+
+                // Map to DTO for response
+                var deliveryDTO = new DeliveryDTO
+                {
+                    DeliveryId = existingDelivery.DeliveryId,
+                    DeliveryPersonId = existingDelivery.DeliveryPersonId,
+                    OrderId = existingDelivery.OrderId,
+                    Status = existingDelivery.Status,
+                    PickupTime = existingDelivery.PickupTime,
+                    EstimatedDeliveryTime = existingDelivery.EstimatedDeliveryTime,
+                    DeliveredTime = existingDelivery.DeliveredTime,
+                    DeliveryPersonFirstName = existingDelivery.DeliveryPerson?.FirstName,
+                    DeliveryPersonLastName = existingDelivery.DeliveryPerson?.LastName,
+                    Order = existingDelivery.Order != null ? new OrderDTO
+                    {
+                        OrderId = existingDelivery.Order.OrderId,
+                        CustomerId = existingDelivery.Order.UserId,
+                        OrderDate = existingDelivery.Order.OrderDate,
+                        DeliveryAddress = existingDelivery.Order.DeliveryAddress,
+                        TotalAmount = existingDelivery.Order.TotalAmount,
+                        Status = existingDelivery.Order.Status,
+                        PaymentMethod = existingDelivery.Order.PaymentMethod,
+                        OrderItems = existingDelivery.Order.OrderItems?.Select(oi => new OrderItemDTO
+                        {
+                            OrderItemId = oi.OrderItemId,
+                            ProductId = oi.ProductId,
+                            Quantity = oi.Quantity,
+                            UnitPrice = oi.UnitPrice,
+                            Subtotal = oi.Subtotal,
+                            ProductName = oi.Product?.ProductName
+                        }).ToList()
+                    } : null
+                };
+
+                return deliveryDTO;
             }
             catch (DbUpdateException ex)
             {
@@ -220,8 +261,6 @@ namespace GroceryDeliveryAPI.Managers
             {
                 throw new InvalidOperationException($"Error updating delivery with ID {id}: {ex.Message}", ex);
             }
-
-            return updatedDelivery;
         }
 
         public async Task<DeliveryDTO> UpdateDeliveryStatus(int id, Delivery.DeliveryStatus deliveryStatus)
