@@ -225,11 +225,35 @@ namespace GroceryDeliveryAPI.Managers
 
                 // Handle password update
                 if (!string.IsNullOrEmpty(updateDto.Password))
+
+                // Update common properties
+                existingUser.FirstName = updatedUser.FirstName;
+                existingUser.LastName = updatedUser.LastName;
+                existingUser.Email = updatedUser.Email;
+                existingUser.PhoneNumber = updatedUser.PhoneNumber;
+                existingUser.Address = updatedUser.Address;
+
+                if (!string.IsNullOrEmpty(updatedUser.Password))
                 {
                     existingUser.Password = updateDto.Password;
                     HashPassword(existingUser);
                 }
 
+                // Update type-specific properties if applicable
+                if (existingUser is DeliveryPerson existingDeliveryPerson && updatedUser is DeliveryPerson updatedDeliveryPerson)
+                {
+                    existingDeliveryPerson.Status = updatedDeliveryPerson.Status;
+                    existingDeliveryPerson.FirstName = $"{updatedUser.FirstName}";
+                    existingDeliveryPerson.LastName = $"{updatedUser.LastName}";
+                }
+                else if (updatedUser.Role == User.UserRole.DeliveryPerson && existingUser.Role != User.UserRole.DeliveryPerson)
+                {
+                    // This is a harder case - changing from regular user to delivery person
+                    // This might require deleting and recreating the user with the right type
+                    // For now, we'll just set the Status
+                    existingUser.Status = DeliveryPerson.DeliveryPersonStatus.Available;
+                }
+              
                 // Handle role and status updates
                 if (updateDto.Role.HasValue)
                 {

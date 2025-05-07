@@ -200,6 +200,7 @@ namespace GroceryDeliveryAPI.Managers
                         .ThenInclude(o => o.OrderItems)
                             .ThenInclude(oi => oi.Product)
                     .FirstOrDefaultAsync(d => d.DeliveryId == id);
+                }
 
                 if (existingDelivery == null)
                 {

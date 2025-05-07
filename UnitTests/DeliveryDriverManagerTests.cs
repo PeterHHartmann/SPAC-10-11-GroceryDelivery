@@ -172,6 +172,7 @@ namespace UnitTests
             await _context.SaveChangesAsync();
 
             var updatedDelivery = new UpdateDeliveryDTO
+
             {
                 DeliveryId = delivery.DeliveryId,
                 DeliveryPersonId = deliveryPerson.UserId,
