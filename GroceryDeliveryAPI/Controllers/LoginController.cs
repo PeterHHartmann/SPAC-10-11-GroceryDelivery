@@ -25,7 +25,7 @@ namespace Inventory_Management.Controllers
         {
             try
             {
-                var user = await _userManager.GetUserByEmailAsync(loginModel.Email); // Get user by username
+                var user = await _userManager.GetUserByEmailAsync(loginModel.Email); // Get user by email
                 if (user == null)
                 {
                     return Unauthorized("Invalid email"); // Return unauthorized if user not found

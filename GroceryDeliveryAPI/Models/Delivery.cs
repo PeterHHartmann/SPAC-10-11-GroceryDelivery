@@ -5,6 +5,14 @@ namespace GroceryDeliveryAPI.Models
 {
     public class Delivery
     {
+        public enum DeliveryStatus
+        {
+            Pending,        // Delivery is scheduled but not yet picked up
+            InProgress,     // Delivery is currently being made
+            Completed,      // Delivery has been successfully completed
+            Cancelled       // Delivery was cancelled
+        }
+
         [Key]
         public int DeliveryId { get; set; }
 
@@ -15,7 +23,7 @@ namespace GroceryDeliveryAPI.Models
         public int DeliveryPersonId { get; set; }
 
         [StringLength(20)]
-        public string Status { get; set; }
+        public DeliveryStatus Status { get; set; }
 
         public DateTime? PickupTime { get; set; }
 
