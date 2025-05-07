@@ -23,7 +23,16 @@ namespace GroceryDeliveryAPI.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure relationships
+            base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>()
+       .HasDiscriminator<string>("Discriminator")
+       .HasValue<User>("User")
+       .HasValue<DeliveryPerson>("DeliveryPerson");
+
+            modelBuilder.Entity<User>()
+                .Property(u => u.Status)
+                .HasConversion<string>();
             // Product to Category (many-to-one)
             modelBuilder.Entity<Product>()
                 .HasOne(p => p.Category)

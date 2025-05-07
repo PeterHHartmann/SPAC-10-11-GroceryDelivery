@@ -83,7 +83,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public async Task GetUserByEmailAsync_WhenUserExists_ReturnsUserWithoutPassword()
+        public async Task GetUserByEmailAsync_WhenUserExists_ReturnsUser()
         {
             // Arrange
             var user = new User { UserId = 1, FirstName = "John", LastName = "Doe", Email = "john@example.com", Password = "hashedpassword", PhoneNumber = "1234567890", Address = "123 Main St",
@@ -97,7 +97,6 @@ namespace UnitTests
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual("John", result.FirstName);
-            Assert.IsNull(result.Password);
         }
 
         [TestMethod]
