@@ -5,7 +5,7 @@ import PlaceholderImage from '@/assets/placeholder-image.svg';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useShoppingBasket } from '@/hooks/shopping-basket';
-import { useCreateOrder } from '@/api/queries/order-queries'; 
+import { useCreateOrder } from '@/api/queries/order-queries';
 
 const PACKING_FEE = 4.51;
 const DELIVERY_FEE = 10.99;
@@ -76,9 +76,9 @@ export const CheckoutPage: FC = () => {
             // Removed: id, customerName, customerEmail, customerPhone, orderStatus, totalAmount
             // as they are not in the API creation schema you provided.
         };
-        
+
         try {
-            await createOrder.mutateAsync(orderData); 
+            await createOrder.mutateAsync(orderData);
             // Navigate to order confirmation page on success
             void navigate('/order-confirmation');
             // Clear the basket after a short delay to allow navigation
@@ -107,7 +107,7 @@ export const CheckoutPage: FC = () => {
                                     id="name"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2"
                                     value={customerName}
-                                    onChange={(e) => {setCustomerName(e.target.value)}}
+                                    onChange={(e) => { setCustomerName(e.target.value); }}
                                     required
                                 />
                             </div>
@@ -119,7 +119,7 @@ export const CheckoutPage: FC = () => {
                                     id="email"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2"
                                     value={customerEmail}
-                                    onChange={(e) => {setCustomerEmail(e.target.value)}}
+                                    onChange={(e) => { setCustomerEmail(e.target.value); }}
                                     required
                                 />
                             </div>
@@ -131,7 +131,7 @@ export const CheckoutPage: FC = () => {
                                     id="phone"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2"
                                     value={customerPhone}
-                                    onChange={(e) => {setCustomerPhone(e.target.value)}}
+                                    onChange={(e) => { setCustomerPhone(e.target.value); }}
                                     required
                                 />
                             </div>
@@ -152,7 +152,7 @@ export const CheckoutPage: FC = () => {
                                     id="address"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2"
                                     value={Address}
-                                    onChange={(e) => {setCustomerAddress(e.target.value)}}
+                                    onChange={(e) => { setCustomerAddress(e.target.value); }}
                                     required
                                 />
                             </div>
@@ -164,7 +164,7 @@ export const CheckoutPage: FC = () => {
                                     id="city"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2"
                                     value={City}
-                                    onChange={(e) => {setCustomerCity(e.target.value)}}
+                                    onChange={(e) => { setCustomerCity(e.target.value); }}
                                     required
                                 />
                             </div>
@@ -176,7 +176,7 @@ export const CheckoutPage: FC = () => {
                                     id="postalCode"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2"
                                     value={ZipCode}
-                                    onChange={(e) => {setCustomerPostalCode(e.target.value)}}
+                                    onChange={(e) => { setCustomerPostalCode(e.target.value); }}
                                     required
                                 />
                             </div>
@@ -188,7 +188,7 @@ export const CheckoutPage: FC = () => {
                                     id="country"
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2"
                                     value={Country}
-                                    onChange={(e) => {setCustomerCountry(e.target.value)}}
+                                    onChange={(e) => { setCustomerCountry(e.target.value); }}
                                     required
                                 />
                             </div>
@@ -207,7 +207,7 @@ export const CheckoutPage: FC = () => {
                                 name="paymentMethod"
                                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm py-2"
                                 value={paymentMethod}
-                                onChange={(e) => {setPaymentMethod(e.target.value)}}
+                                onChange={(e) => { setPaymentMethod(e.target.value); }}
                             >
                                 <option>Credit Card</option>
                                 <option>Bank Transfer</option>
@@ -279,4 +279,4 @@ export const CheckoutPage: FC = () => {
             </div>
         </div>
     );
-}
+};
