@@ -14,6 +14,7 @@ type ProductCardProps = {
 export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 	const { productId, productName, imagePath, price, description, stockQuantity } = product;
 	const inStock = (stockQuantity > 0);
+
 	const { addToBasket } = useShoppingBasket();
 
 	const [quantity, setQuantity] = useState<number>(1);
