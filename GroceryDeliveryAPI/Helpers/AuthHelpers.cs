@@ -25,7 +25,7 @@ namespace GroceryDeliveryAPI.Helpers
                 var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
                 var claims = new List<Claim> {
             new Claim("id", user.UserId.ToString()),
-            new Claim("name", user.FirstName + user.LastName),
+            new Claim("name", user.FirstName + " " + user.LastName),
             new Claim("role", user.Role.ToString())
         };
 

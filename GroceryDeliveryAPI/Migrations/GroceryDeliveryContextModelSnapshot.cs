@@ -28,7 +28,7 @@ namespace GroceryDeliveryAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -63,10 +63,9 @@ namespace GroceryDeliveryAPI.Migrations
                     b.Property<DateTime?>("PickupTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
+                    b.Property<int>("Status")
                         .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("integer");
 
                     b.HasKey("DeliveryId");
 
@@ -75,39 +74,6 @@ namespace GroceryDeliveryAPI.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("Deliveries");
-                });
-
-            modelBuilder.Entity("GroceryDeliveryAPI.Models.DeliveryPerson", b =>
-                {
-                    b.Property<int>("DeliveryPersonId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DeliveryPersonId"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
-                    b.HasKey("DeliveryPersonId");
-
-                    b.ToTable("DeliveryPersons");
                 });
 
             modelBuilder.Entity("GroceryDeliveryAPI.Models.Order", b =>
@@ -236,6 +202,11 @@ namespace GroceryDeliveryAPI.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("character varying(21)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -267,9 +238,23 @@ namespace GroceryDeliveryAPI.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("integer");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("text");
+
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+
+                    b.HasDiscriminator().HasValue("User");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("GroceryDeliveryAPI.Models.DeliveryPerson", b =>
+                {
+                    b.HasBaseType("GroceryDeliveryAPI.Models.User");
+
+                    b.HasDiscriminator().HasValue("DeliveryPerson");
                 });
 
             modelBuilder.Entity("GroceryDeliveryAPI.Models.Delivery", b =>
@@ -337,11 +322,6 @@ namespace GroceryDeliveryAPI.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("GroceryDeliveryAPI.Models.DeliveryPerson", b =>
-                {
-                    b.Navigation("Deliveries");
-                });
-
             modelBuilder.Entity("GroceryDeliveryAPI.Models.Order", b =>
                 {
                     b.Navigation("Deliveries");
@@ -357,6 +337,11 @@ namespace GroceryDeliveryAPI.Migrations
             modelBuilder.Entity("GroceryDeliveryAPI.Models.User", b =>
                 {
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("GroceryDeliveryAPI.Models.DeliveryPerson", b =>
+                {
+                    b.Navigation("Deliveries");
                 });
 #pragma warning restore 612, 618
         }

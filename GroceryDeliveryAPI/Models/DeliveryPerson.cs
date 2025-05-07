@@ -2,29 +2,30 @@
 
 namespace GroceryDeliveryAPI.Models
 {
-    public class DeliveryPerson
+    public class DeliveryPerson : User
     {
-        [Key]
-        public int DeliveryPersonId { get; set; }
+        public enum DeliveryPersonStatus
+        {
+            Available,       // Ready to accept new deliveries
+            Busy,           // Currently on a delivery
+            OnBreak,        // Taking a break, not available for deliveries
+            Offline,        // Not working/signed out
+            Inactive        // Account is disabled or suspended
+        }
 
-        [Required]
-        [StringLength(100)]
-        public string Name { get; set; }
-
-        [Required]
-        [StringLength(20)]
-        public string PhoneNumber { get; set; }
-
-        [Required]
-        [StringLength(100)]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [Required]
-        [StringLength(20)]
-        public string Status { get; set; }
+        public new DeliveryPersonStatus Status
+        {
+            get => base.Status ?? DeliveryPersonStatus.Offline;
+            set => base.Status = value;
+        }
 
         // Navigation property
         public virtual ICollection<Delivery>? Deliveries { get; set; }
+
+        public DeliveryPerson()
+        {
+            Role = UserRole.DeliveryPerson; // Set default role
+            Status = DeliveryPersonStatus.Available; // Set default status
+        }
     }
 }

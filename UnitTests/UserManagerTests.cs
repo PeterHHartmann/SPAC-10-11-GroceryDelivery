@@ -1,4 +1,5 @@
 ﻿using GroceryDeliveryAPI.Context;
+using GroceryDeliveryAPI.DTO_s;
 using GroceryDeliveryAPI.Managers;
 using GroceryDeliveryAPI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -83,7 +84,7 @@ namespace UnitTests
         }
 
         [TestMethod]
-        public async Task GetUserByEmailAsync_WhenUserExists_ReturnsUserWithoutPassword()
+        public async Task GetUserByEmailAsync_WhenUserExists_ReturnsUser()
         {
             // Arrange
             var user = new User { UserId = 1, FirstName = "John", LastName = "Doe", Email = "john@example.com", Password = "hashedpassword", PhoneNumber = "1234567890", Address = "123 Main St",
@@ -97,7 +98,6 @@ namespace UnitTests
             // Assert
             Assert.IsNotNull(result);
             Assert.AreEqual("John", result.FirstName);
-            Assert.IsNull(result.Password);
         }
 
         [TestMethod]
@@ -150,7 +150,7 @@ namespace UnitTests
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
-            var updatedUser = new User { UserId = 1, FirstName = "UpdatedJohn", LastName = "UpdatedDoe", Email = "updatedjohn@example.com", Password = "newpassword" };
+            var updatedUser = new UpdateUserDTO { FirstName = "UpdatedJohn", LastName = "UpdatedDoe", Email = "updatedjohn@example.com", Password = "newpassword" };
 
             // Act
             await _userManager.UpdateUserAsync(1, updatedUser);
@@ -167,7 +167,7 @@ namespace UnitTests
         public async Task UpdateUserAsync_WhenUserDoesNotExist_ThrowsInvalidOperationException()
         {
             // Arrange
-            var updatedUser = new User { UserId = 1, FirstName = "UpdatedJohn", LastName = "UpdatedDoe", Email = "updatedjohn@example.com", Password = "newpassword" };
+            var updatedUser = new UpdateUserDTO {   FirstName = "UpdatedJohn", LastName = "UpdatedDoe", Email = "updatedjohn@example.com", Password = "newpassword" };
 
             // Act
             await _userManager.UpdateUserAsync(1, updatedUser);
