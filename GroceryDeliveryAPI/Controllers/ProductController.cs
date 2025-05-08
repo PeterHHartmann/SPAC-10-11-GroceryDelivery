@@ -111,4 +111,4 @@ namespace GroceryDeliveryAPI.Controllers
         public string Base64Image { get; set; } = string.Empty;
         public string FileName { get; set; } = string.Empty;
     }
-} 
+}
