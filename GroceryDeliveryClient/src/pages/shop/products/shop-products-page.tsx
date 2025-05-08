@@ -40,9 +40,6 @@ export const ShopProductsPage: FC = () => {
 		return false;
 	}, [products]);
 
-	console.log(hasMorePages);
-
-
 	const handlePagePrevious = (): void => {
 		if (currentPage > 1) {
 			const params = searchParams;
