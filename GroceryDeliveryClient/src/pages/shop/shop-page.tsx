@@ -75,7 +75,6 @@ const CategoriesMenu: FC<CategoriesMenuProps> = ({ categorySelectedHandler }) =>
 			{
 				categories.map((category) => (
 					<SidebarMenuItem key={'category-' + String(category.id)}>
-						{/* TODO implement active state */}
 						<SidebarMenuButton
 							onClick={() => { categorySelectedHandler(category.id); }}
 							isActive={selectedCategory ? String(category.id) === selectedCategory : false}
