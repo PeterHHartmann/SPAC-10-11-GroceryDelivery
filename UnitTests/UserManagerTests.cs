@@ -43,15 +43,9 @@ namespace UnitTests
             await _context.Users.AddRangeAsync(new[]
             {
                 new User { UserId = 1, FirstName = "John", LastName = "Doe", Email = "john@example.com", Password = "hashedpassword1",  PhoneNumber = "1234567890",
-                  Address = "123 Test St",
-                City = "Test City",
-                ZipCode = 12345,
-                Country = "Test Country"},
+                Address = "123 Main St",},
                 new User { UserId = 2, FirstName = "Jane", LastName = "Smith", Email = "jane@example.com", Password = "hashedpassword2", PhoneNumber = "1234567890",
-                  Address = "123 Test St",
-                City = "Test City",
-                ZipCode = 12345,
-                Country = "Test Country"}
+                Address = "123 Main St", }
             });
             await _context.SaveChangesAsync();
 
@@ -68,19 +62,7 @@ namespace UnitTests
         public async Task GetUserByIdAsync_WhenUserExists_ReturnsUserWithoutPassword()
         {
             // Arrange
-            var user = new User
-            {
-                UserId = 1,
-                FirstName = "John",
-                LastName = "Doe",
-                Email = "john@example.com",
-                Password = "hashedpassword",
-                PhoneNumber = "1234567890",
-                Address = "123 Test St",
-                City = "Test City",
-                ZipCode = 12345,
-                Country = "Test Country",
-            };
+            var user = new User {UserId = 1, FirstName = "John", LastName = "Doe", Email = "john@example.com", Password = "hashedpassword", PhoneNumber = "1234567890", Address = "123 Main St" };
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
@@ -105,18 +87,7 @@ namespace UnitTests
         public async Task GetUserByEmailAsync_WhenUserExists_ReturnsUser()
         {
             // Arrange
-            var user = new User
-            {
-                UserId = 1,
-                FirstName = "John",
-                LastName = "Doe",
-                Email = "john@example.com",
-                Password = "hashedpassword",
-                PhoneNumber = "1234567890",
-                Address = "123 Test St",
-                City = "Test City",
-                ZipCode = 12345,
-                Country = "Test Country",
+            var user = new User { UserId = 1, FirstName = "John", LastName = "Doe", Email = "john@example.com", Password = "hashedpassword", PhoneNumber = "1234567890", Address = "123 Main St",
             };
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
@@ -136,7 +107,7 @@ namespace UnitTests
             // Act
             await _userManager.GetUserByEmailAsync("nonexistent@example.com");
         }
-
+      
         /*
         [TestMethod]
         public async Task AddUserAsync_WithValidUser_AddsUser()
@@ -175,19 +146,7 @@ namespace UnitTests
         public async Task UpdateUserAsync_WithValidUser_UpdatesUser()
         {
             // Arrange
-            var user = new User
-            {
-                UserId = 1,
-                FirstName = "John",
-                LastName = "Doe",
-                Email = "john@example.com",
-                Password = "hashedpassword",
-                PhoneNumber = "1234567890",
-                Address = "123 Test St",
-                City = "Test City",
-                ZipCode = 12345,
-                Country = "Test Country",
-            };
+            var user = new User {UserId = 1, FirstName = "John", LastName = "Doe", Email = "john@example.com", Password = "hashedpassword", PhoneNumber = "1234567890", Address = "123 Main St" };
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
@@ -208,7 +167,7 @@ namespace UnitTests
         public async Task UpdateUserAsync_WhenUserDoesNotExist_ThrowsInvalidOperationException()
         {
             // Arrange
-            var updatedUser = new UpdateUserDTO { FirstName = "UpdatedJohn", LastName = "UpdatedDoe", Email = "updatedjohn@example.com", Password = "newpassword" };
+            var updatedUser = new UpdateUserDTO {   FirstName = "UpdatedJohn", LastName = "UpdatedDoe", Email = "updatedjohn@example.com", Password = "newpassword" };
 
             // Act
             await _userManager.UpdateUserAsync(1, updatedUser);
@@ -218,19 +177,7 @@ namespace UnitTests
         public async Task DeleteUserAsync_WithExistingUser_DeletesUser()
         {
             // Arrange
-            var user = new User
-            {
-                UserId = 1,
-                FirstName = "John",
-                LastName = "Doe",
-                Email = "john@example.com",
-                Password = "hashedpassword",
-                Address = "123 Test St",
-                City = "Test City",
-                ZipCode = 12345,
-                Country = "Test Country",
-                PhoneNumber = "123456789"
-            };
+            var user = new User { UserId = 1, FirstName = "John", LastName = "Doe", Email = "john@example.com", Password = "hashedpassword", Address="123 Main St.", PhoneNumber = "123456789" };
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 

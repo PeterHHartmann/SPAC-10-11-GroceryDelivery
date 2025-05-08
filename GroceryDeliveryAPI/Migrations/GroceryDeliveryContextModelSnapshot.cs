@@ -28,7 +28,7 @@ namespace GroceryDeliveryAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -84,20 +84,10 @@ namespace GroceryDeliveryAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("OrderId"));
 
-                    b.Property<string>("Address")
+                    b.Property<string>("DeliveryAddress")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.Property<DateTime?>("DeliveryTime")
                         .HasColumnType("timestamp with time zone");
@@ -119,9 +109,6 @@ namespace GroceryDeliveryAPI.Migrations
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ZipCode")
                         .HasColumnType("integer");
 
                     b.HasKey("OrderId");
@@ -215,16 +202,6 @@ namespace GroceryDeliveryAPI.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasMaxLength(21)
@@ -263,10 +240,6 @@ namespace GroceryDeliveryAPI.Migrations
 
                     b.Property<string>("Status")
                         .HasColumnType("text");
-
-                    b.Property<int>("ZipCode")
-                        .HasMaxLength(10)
-                        .HasColumnType("integer");
 
                     b.HasKey("UserId");
 

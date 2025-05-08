@@ -39,18 +39,6 @@ namespace GroceryDeliveryAPI.Models
         [Required]
         public string Address { get; set; }
 
-        [StringLength(255)]
-        [Required]
-        public string City { get; set; }
-
-        [StringLength(10)]
-        [Required]
-        public int ZipCode { get; set; }
-
-        [StringLength(50)]
-        [Required]
-        public string Country { get; set; }
-
         [Required]
         public UserRole Role { get; set; }
 

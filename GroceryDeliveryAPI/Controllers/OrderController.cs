@@ -70,15 +70,15 @@ namespace GroceryDeliveryAPI.Controllers
             if (!success)
                 return NotFound($"Order with ID {orderId} not found.");
 
-            return Ok(new { OrderId = orderId, updateDto.Address, updateDto.City, updateDto.ZipCode, updateDto.Country, updateDto.PaymentMethod, updateDto.DeliveryTime });
+            return Ok(new { OrderId = orderId, updateDto.DeliveryAddress, updateDto.PaymentMethod, updateDto.DeliveryTime });
         }
 
         [HttpPut("cancel/{orderId}")]
-
+  
         public async Task<IActionResult> CancelOrder(int orderId)
         {
             await _orderManager.CancelOrder(orderId);
-
+         
             return NoContent();
         }
 
