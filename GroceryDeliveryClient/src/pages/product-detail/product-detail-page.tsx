@@ -1,12 +1,12 @@
 import { useProduct } from '@/api/queries/product-queries';
 import { useMemo, useState, type FC } from 'react';
 import { useParams } from 'react-router-dom';
-import PlaceholderImage from '@/assets/placeholder-image.svg';
 import { useShoppingBasket } from '@/hooks/shopping-basket';
 import { Stepper } from '@/components/stepper';
 import { Button } from '@/components/ui/button';
 import type { Product } from '@/types';
 import { useCategory } from '@/api/queries/category-queries';
+import { ApiImage } from '@/components/api-image';
 
 export const ProductDetailPage: FC = () => {
 
@@ -67,16 +67,11 @@ const ProductDetailCard: FC<ProductDetailCardProps> = ({ product }) => {
 	return (
 		<div className="max-w-3xl h-max mx-auto p-6 bg-white shadow-md rounded-lg mt-4">
 			<div className="flex flex-col md:flex-row gap-6">
-				{/* Product Image */}
+
 				<div className="flex-shrink-0">
-					<img
-						src={product.imagePath || PlaceholderImage}
-						alt={product.productName}
-						className="w-64 h-64 object-cover rounded-md"
-					/>
+					<ApiImage src={product.imagePath} className='w-64 h-64 object-cover rounded-md' />
 				</div>
 
-				{/* Product Info */}
 				<div className="flex-1">
 					<h1 className="text-2xl font-bold mb-2">{product.productName}</h1>
 					<ProductCategoryText categoryId={product.categoryId} />
@@ -90,6 +85,7 @@ const ProductDetailCard: FC<ProductDetailCardProps> = ({ product }) => {
 							<p className="text-gray-700">{product.description}</p>
 						</div>
 					)}
+
 					<div className='grid grid-flow-col grid-col-auto gap-2 pt-4'>
 						<Stepper
 							count={quantity}
@@ -120,6 +116,7 @@ type ProductCategoryTextProps = {
 const ProductCategoryText: FC<ProductCategoryTextProps> = ({ categoryId }) => {
 
 	const { data: category, isLoading, error } = useCategory(categoryId);
+
 	const style = 'text-gray-600 mb-4';
 
 	if (isLoading) {
