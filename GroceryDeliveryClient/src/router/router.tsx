@@ -4,6 +4,7 @@ import { createBrowserRouter, redirect } from 'react-router-dom';
 import AdminDashboard from '@/pages/admin/dashboard/page';
 import { ShopProductsPage } from '@/pages/shop/products/shop-products-page';
 import { ShopPage } from '@/pages/shop/shop-page';
+import { ProductDetailPage } from '@/pages/product-detail/product-detail-page';
 import { CheckoutPage } from '@/pages/checkout/checkout-page';
 import { OrderConfirmationPage } from '@/pages/order-confirmation/order-confirmation-page';
 
@@ -28,6 +29,10 @@ export const router = createBrowserRouter([
 				]
 			},
 			{
+				path: '/product/:productId',
+				Component: ProductDetailPage,
+			},
+			{
 				path: '/basket',
 				Component: ShoppingBasketPage
 			},
@@ -45,7 +50,7 @@ export const router = createBrowserRouter([
 				Component: CheckoutPage
 			},
 			{
-				
+
 				path: '/order-confirmation',
 				Component: OrderConfirmationPage
 			},

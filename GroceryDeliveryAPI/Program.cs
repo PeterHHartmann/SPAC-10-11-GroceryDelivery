@@ -7,6 +7,7 @@ using System;
 using Microsoft.OpenApi.Models;
 using GroceryDeliveryAPI.Helpers;
 using GroceryDeliveryAPI.Services;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -122,7 +123,12 @@ if (app.Environment.IsDevelopment())
 }
 
 // Configure static files for product images
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "Seeding/GroceryStoreDataset/dataset/iconic-images-and-descriptions")),
+    RequestPath = "/iconic-images-and-descriptions"
+});
 
 app.UseHttpsRedirection();
 

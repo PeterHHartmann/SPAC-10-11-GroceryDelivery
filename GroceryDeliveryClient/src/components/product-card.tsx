@@ -2,10 +2,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Product } from '@/types';
 import { useState, type FC } from 'react';
-import PlaceholderImage from '@/assets/placeholder-image.svg';
 import { Link } from 'react-router-dom';
 import { Stepper } from '@/components/stepper';
 import { useShoppingBasket } from '@/hooks/shopping-basket';
+import { ApiImage } from '@/components/api-image';
 
 type ProductCardProps = {
 	product: Product;
@@ -42,17 +42,15 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
 	return (
 		<Card className="w-full max-w-sm rounded-2xl shadow-md p-0 overflow-hidden">
-			<CardHeader className="block h-56 p-0 w-full relative bg-background">
-				<Link to={`/products/${String(productId)}`} className='absolute w-full h-full'>
-				</Link>
-				<img
-					src={imagePath || PlaceholderImage}
+			<CardHeader className="block h-64 p-0 w-full relative bg-card mt-4">
+				<ApiImage
+					src={imagePath}
 					alt={productName}
-					className="absolute w-full h-full object-cover "
+					className='absolute w-full h-full object-contain mix-blend-multiply'
 				/>
 			</CardHeader>
 			<CardContent className="px-4">
-				<Link to={`/products/${String(productId)}`}>
+				<Link to={`/product/${String(productId)}`}>
 					<CardTitle className="text-xl font-semibold text-primary">{productName}</CardTitle>
 				</Link>
 				{description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
@@ -66,7 +64,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 					</div>
 				</div>
 			</CardContent>
-			<CardFooter className="grid grid-flow-col grid-col-auto gap-2 p-4 pt-0">
+			<CardFooter className="grid grid-flow-col grid-col-auto gap-2 p-4 pt-0 mt-auto">
 				<Stepper
 					count={quantity}
 					min={0}

@@ -1,10 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, type UseQueryResult } from '@tanstack/react-query';
 import type { ApiError, PaginationParams, Product, ProductQueryParams } from '@/types';
 import { ProductEndpoints } from '@/api/endpoints/product-endpoints';
 import { ProductService } from '@/api/services/product-service';
 import { convertToURLSearchParams } from '@/lib/utils';
 
-export const useProducts = (params: ProductQueryParams & PaginationParams) => {
+export const useProducts = (params: ProductQueryParams & PaginationParams): UseQueryResult<Product[], ApiError> => {
 	return useQuery<Product[], ApiError>({
 		queryKey: [...ProductEndpoints.getAll.key(convertToURLSearchParams(params))],
 		queryFn: () => ProductService.getAll(params),
