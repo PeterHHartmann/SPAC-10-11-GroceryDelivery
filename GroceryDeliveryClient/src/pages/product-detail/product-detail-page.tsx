@@ -1,0 +1,103 @@
+import { useProduct } from '@/api/queries/product-queries';
+import { useMemo, useState, type FC } from 'react';
+import { useParams } from 'react-router-dom';
+import PlaceholderImage from '@/assets/placeholder-image.svg';
+import { useShoppingBasket } from '@/hooks/shopping-basket';
+import { Stepper } from '@/components/stepper';
+import { Button } from '@/components/ui/button';
+
+export const ProductDetailPage: FC = () => {
+
+	const { productId } = useParams<{ productId: string; }>();
+
+	const {
+		data: product,
+		isLoading,
+		error
+	} = useProduct(productId ? parseInt(productId, 10) : 0);
+
+	const { addToBasket } = useShoppingBasket();
+
+	const [quantity, setQuantity] = useState<number>(1);
+
+	const inStock = useMemo(() => {
+		return product.stockQuantity > 0;
+	}, [product]);
+
+	const handleAddToBasket = (): void => {
+		addToBasket({ product: product, quantity: quantity });
+		return;
+	};
+
+	const handleQuantityDecrease = (): void => {
+		if (quantity <= 1) {
+			return;
+		}
+		setQuantity(quantity - 1);
+		return;
+	};
+
+	const handleQuantityIncrease = (): void => {
+		if (quantity === product.stockQuantity) {
+			return;
+		}
+		setQuantity(quantity + 1);
+		return;
+	};
+
+	if (isLoading) {
+		return null;
+	}
+
+	if (error || !product) {
+		return null;
+	}
+
+	return (
+		<div className="max-w-3xl h-max mx-auto p-6 bg-white shadow-md rounded-lg mt-4">
+			<div className="flex flex-col md:flex-row gap-6">
+				{/* Product Image */}
+				<div className="flex-shrink-0">
+					<img
+						src={product.imagePath || PlaceholderImage}
+						alt={product.productName}
+						className="w-64 h-64 object-cover rounded-md"
+					/>
+				</div>
+
+				{/* Product Info */}
+				<div className="flex-1">
+					<h1 className="text-2xl font-bold mb-2">{product.productName}</h1>
+					<p className="text-gray-600 mb-4">Category ID: {product.categoryId}</p>
+					<p className="text-lg font-semibold text-green-600 mb-2">${product.price.toFixed(2)}</p>
+					<p className={`mb-4 ${product.stockQuantity > 0 ? "text-blue-600" : "text-red-500"}`}>
+						{product.stockQuantity > 0 ? `${String(product.stockQuantity)} in stock` : "Out of stock"}
+					</p>
+					{product.description && (
+						<div className="mt-4">
+							<h2 className="text-lg font-medium mb-1">Description</h2>
+							<p className="text-gray-700">{product.description}</p>
+						</div>
+					)}
+					<div className='grid grid-flow-col grid-col-auto gap-2 pt-4'>
+						<Stepper
+							count={quantity}
+							min={0}
+							max={product.stockQuantity}
+							minusPressedHandler={handleQuantityDecrease}
+							plusPressedHandler={handleQuantityIncrease}
+						/>
+						<Button
+							disabled={!inStock}
+							size='lg'
+							variant={'default'}
+							onClick={() => { handleAddToBasket(); }}
+						>
+							{inStock ? "Add to Basket" : "Unavailable"}
+						</Button>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
