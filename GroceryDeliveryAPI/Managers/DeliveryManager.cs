@@ -77,7 +77,7 @@ namespace GroceryDeliveryAPI.Managers
                 Order = new OrderDTO
                 {
                     OrderId = d.Order.OrderId,
-                    CustomerId = d.Order.UserId,
+                    UserId = d.Order.UserId,
                     OrderDate = d.Order.OrderDate,
                     Address = d.Order.Address,
                     City = d.Order.City,
@@ -139,7 +139,7 @@ namespace GroceryDeliveryAPI.Managers
                         LastName = "Unassigned",
                         Email = "system.unassigned@example.com",
                         Password = Guid.NewGuid().ToString(), // Random password
-                        PhoneNumber = "000-000-0000",            
+                        PhoneNumber = "000-000-0000",
                         Address = "System Address",
                         City = "Default City", // Set a default value for City
                         Country = "Default Country", // Set a default value for Country
@@ -237,7 +237,7 @@ namespace GroceryDeliveryAPI.Managers
                     Order = existingDelivery.Order != null ? new OrderDTO
                     {
                         OrderId = existingDelivery.Order.OrderId,
-                        CustomerId = existingDelivery.Order.UserId,
+                        UserId = existingDelivery.Order.UserId,
                         OrderDate = existingDelivery.Order.OrderDate,
                         Address = existingDelivery.Order.Address,
                         City = existingDelivery.Order.City,
@@ -339,7 +339,7 @@ namespace GroceryDeliveryAPI.Managers
                     Order = existingDelivery.Order != null ? new OrderDTO
                     {
                         OrderId = existingDelivery.Order.OrderId,
-                        CustomerId = existingDelivery.Order.UserId,
+                        UserId = existingDelivery.Order.UserId,
                         OrderDate = existingDelivery.Order.OrderDate,
                         Address = existingDelivery.Order.Address,
                         City = existingDelivery.Order.City,

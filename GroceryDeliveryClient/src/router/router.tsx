@@ -4,6 +4,8 @@ import { createBrowserRouter, redirect } from 'react-router-dom';
 import AdminDashboard from '@/pages/admin/dashboard/page';
 import { ShopProductsPage } from '@/pages/shop/products/shop-products-page';
 import { ShopPage } from '@/pages/shop/shop-page';
+import { CheckoutPage } from '@/pages/checkout/checkout-page';
+import { OrderConfirmationPage } from '@/pages/order-confirmation/order-confirmation-page';
 
 export const router = createBrowserRouter([
 	{

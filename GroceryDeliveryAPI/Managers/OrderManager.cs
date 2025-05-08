@@ -10,6 +10,7 @@ namespace GroceryDeliveryAPI.Managers
         private readonly GroceryDeliveryContext _context;
         private readonly DeliveryManager deliveryManager;
 
+
         public OrderManager(GroceryDeliveryContext context, DeliveryManager deliveryManager)
         {
             _context = context;
@@ -18,6 +19,10 @@ namespace GroceryDeliveryAPI.Managers
 
         public async Task<(Order Order, string Error)> CreateOrderAsync(OrderCreateDTO orderDto)
         {
+            decimal PACKING_FEE = 4.51M;
+            decimal DELIVERY_FEE = 10.99M;
+            decimal SALES_TAX_PERCENT = 25;
+
             var user = await _context.Users.FindAsync(orderDto.UserId);
             if (user == null)
                 return (null, $"User with ID {orderDto.UserId} not found.");
@@ -32,7 +37,15 @@ namespace GroceryDeliveryAPI.Managers
                     return (null, $"Product with ID {itemDto.ProductId} not found.");
 
                 decimal subtotal = product.Price * itemDto.Quantity;
-                totalAmount += subtotal;
+                if (product.StockQuantity < itemDto.Quantity)
+                    return (null, $"Insufficient stock for product {product.ProductName}.");
+                product.StockQuantity -= itemDto.Quantity;
+                _context.Products.Update(product);
+
+                await _context.SaveChangesAsync();
+                subtotal = subtotal * (1 + SALES_TAX_PERCENT / 100);
+
+                totalAmount = subtotal + PACKING_FEE + DELIVERY_FEE;
 
                 orderItems.Add(new OrderItem
                 {
@@ -196,6 +209,7 @@ namespace GroceryDeliveryAPI.Managers
             return new OrderDTO
             {
                 OrderId = order.OrderId,
+                UserId = order.UserId,
                 OrderDate = order.OrderDate,
                 Address = order.Address,
                 City = order.City,

@@ -34,7 +34,7 @@ const ShoppingBasketContext = createContext<
 		basket: ShoppingBasket,
 		addToBasket: (item: ShoppingBasketItem) => void;
 		removeFromBasket: (item: ShoppingBasketItem) => void;
-		ClearBasket: (item: ShoppingBasketItem) => void;
+		clearBasket: (item: ShoppingBasketItem) => void;
 	} | undefined
 >(undefined);
 

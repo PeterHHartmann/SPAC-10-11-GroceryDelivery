@@ -21,3 +21,19 @@ export const ShoppingBasketItemSchema = z.object({
 });
 
 export const ShoppingBasketSchema = z.array(ShoppingBasketItemSchema);
+
+export const OrderSchema = z.object({
+	id: z.number(),
+	userId: z.number(),
+	customerName: z.string(),
+	customerEmail: z.string(),
+	Address: z.string(),
+	customerPhone: z.string(),
+	City: z.string(),
+	ZipCode: z.number(),
+	Country: z.string(),
+	paymentMethod: z.string(),
+	orderStatus: z.string(),
+	orderItems: ShoppingBasketItemSchema.array(),
+	totalAmount: z.number(),
+});

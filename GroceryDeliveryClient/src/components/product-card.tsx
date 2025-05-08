@@ -48,7 +48,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 				<img
 					src={imagePath || PlaceholderImage}
 					alt={productName}
-					className="absolute w-full h-full object-cover mix-blend-difference"
+					className="absolute w-full h-full object-cover "
 				/>
 			</CardHeader>
 			<CardContent className="px-4">
