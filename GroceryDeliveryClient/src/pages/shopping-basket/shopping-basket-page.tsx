@@ -1,12 +1,12 @@
 import { Separator } from '@/components/ui/separator';
 import type { Product, ShoppingBasket } from '@/types';
 import { useEffect, useMemo, type FC } from 'react';
-import PlaceholderImage from '@/assets/placeholder-image.svg';
 import { Button } from '@/components/ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useShoppingBasket } from '@/hooks/shopping-basket';
 import { Stepper } from '@/components/stepper';
 import { Trash } from 'lucide-react';
+import { ApiImage } from '@/components/api-image';
 
 const PACKING_FEE = 4.51;
 const DELIVERY_FEE = 10.99;
@@ -104,10 +104,10 @@ const ShoppingBasketItem: FC<ShoppingBasketItemProps> = ({ product, quantity }) 
 		<div>
 			<div className='grid grid-cols-6 gap-2 p-4 justify-between items-center'>
 				<div className="block aspect-auto h-32 w-32 p-0 relative bg-background">
-					<img
-						src={product.imagePath || PlaceholderImage}
+					<ApiImage
+						src={product.imagePath}
 						alt={product.productName}
-						className="absolute w-full h-full object-cover mix-blend-difference"
+						className='absolute w-full h-full object-contain mix-blend-multiply'
 					/>
 				</div>
 				<p className='text-lg font-bold'>{product.productName}</p>
