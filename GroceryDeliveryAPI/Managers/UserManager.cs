@@ -231,15 +231,6 @@ namespace GroceryDeliveryAPI.Managers
 
                 // Handle password update
                 if (!string.IsNullOrEmpty(updateDto.Password))
-
-                // Update common properties
-                existingUser.FirstName = updatedUser.FirstName;
-                existingUser.LastName = updatedUser.LastName;
-                existingUser.Email = updatedUser.Email;
-                existingUser.PhoneNumber = updatedUser.PhoneNumber;
-                existingUser.Address = updatedUser.Address;
-
-                if (!string.IsNullOrEmpty(updatedUser.Password))
                 {
                     existingUser.Password = updateDto.Password;
                     HashPassword(existingUser);
