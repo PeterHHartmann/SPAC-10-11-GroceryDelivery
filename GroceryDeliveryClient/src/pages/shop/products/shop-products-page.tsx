@@ -2,7 +2,7 @@ import { useProducts } from '@/api/queries/product-queries';
 import { ProductCard } from '@/components/product-card';
 import { Button } from '@/components/ui/button';
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { RefreshCcw } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 import { useMemo, type FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -62,15 +62,15 @@ export const ShopProductsPage: FC = () => {
 		}
 	};
 
-	if (isLoading) {
+	if (isLoading || !products) {
 		return (
-			<div>
-				<RefreshCcw size={48} className='animate-spin' />
+			<div className='w-full flex pt-36 justify-center text-accent'>
+				<RefreshCw size={188} className='animate-spin' />
 			</div>
 		);
 	}
 
-	if (error || !products) {
+	if (error) {
 		return (
 			<div>
 				<p>Couldn't find any products</p>
