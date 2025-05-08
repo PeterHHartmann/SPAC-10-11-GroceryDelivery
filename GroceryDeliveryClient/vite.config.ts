@@ -15,5 +15,8 @@ export default defineConfig({
 		watch: {
 			usePolling: true, // Enable polling for file changes
 		},
+		proxy: {
+			'/api': 'http://localhost:5054',
+		},
 	},
 });

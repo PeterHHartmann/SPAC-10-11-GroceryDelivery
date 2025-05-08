@@ -4,6 +4,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import AdminDashboard from '@/pages/admin/dashboard/page';
 import OrdersPage from '@/pages/admin/orders/page';
 import OrderDetailsPage from '@/pages/admin/orders/[orderId]/page';
+import UsersPage from '@/pages/admin/users/page';
 
 export const router = createBrowserRouter([
 	{
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
 								Component: OrderDetailsPage
 							}
 						]
+					},
+					{
+						path: "/admin/users",
+						Component: UsersPage
 					}
 				]
 			}

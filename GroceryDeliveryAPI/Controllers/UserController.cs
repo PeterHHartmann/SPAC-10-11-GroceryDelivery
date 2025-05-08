@@ -25,6 +25,7 @@ namespace GroceryDeliveryAPI.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
@@ -39,6 +40,7 @@ namespace GroceryDeliveryAPI.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
@@ -46,6 +48,7 @@ namespace GroceryDeliveryAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] UserDTO user)
         {
+            Console.WriteLine("POST /api/user hit");
             try
             {
                 if (user == null)
@@ -57,6 +60,7 @@ namespace GroceryDeliveryAPI.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
@@ -77,6 +81,7 @@ namespace GroceryDeliveryAPI.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
@@ -92,6 +97,7 @@ namespace GroceryDeliveryAPI.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
