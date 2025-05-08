@@ -12,8 +12,9 @@ type ProductCardProps = {
 };
 
 export const ProductCard: FC<ProductCardProps> = ({ product }) => {
-	const { id, name, image, price, description, stock } = product;
-	const inStock = (stock > 0);
+	const { productId, productName, imagePath, price, description, stockQuantity } = product;
+	const inStock = (stockQuantity > 0);
+
 	const { addToBasket } = useShoppingBasket();
 
 	const [quantity, setQuantity] = useState<number>(1);
@@ -32,7 +33,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 	};
 
 	const handleQuantityIncrease = (): void => {
-		if (quantity === product.stock) {
+		if (quantity === stockQuantity) {
 			return;
 		}
 		setQuantity(quantity + 1);
@@ -42,17 +43,17 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 	return (
 		<Card className="w-full max-w-sm rounded-2xl shadow-md p-0 overflow-hidden">
 			<CardHeader className="block h-56 p-0 w-full relative bg-background">
-				<Link to={`/products/${String(id)}`} className='absolute w-full h-full'>
+				<Link to={`/products/${String(productId)}`} className='absolute w-full h-full'>
 				</Link>
 				<img
-					src={image || PlaceholderImage}
-					alt={name}
+					src={imagePath || PlaceholderImage}
+					alt={productName}
 					className="absolute w-full h-full object-cover mix-blend-difference"
 				/>
 			</CardHeader>
 			<CardContent className="px-4">
-				<Link to={`/products/${String(id)}`}>
-					<CardTitle className="text-xl font-semibold text-primary">{name}</CardTitle>
+				<Link to={`/products/${String(productId)}`}>
+					<CardTitle className="text-xl font-semibold text-primary">{productName}</CardTitle>
 				</Link>
 				{description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
 				<div className='grid grid-cols-2 items-center mt-2'>
@@ -60,7 +61,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 					<div className='flex w-full justify-end items-center'>
 						{!inStock
 							? (<p className="text-sm text-red-500 font-medium">Out of stock</p>)
-							: (<p>Stock: {product.stock}</p>)
+							: (<p>Stock: {stockQuantity}</p>)
 						}
 					</div>
 				</div>
@@ -69,7 +70,7 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 				<Stepper
 					count={quantity}
 					min={0}
-					max={product.stock}
+					max={stockQuantity}
 					minusPressedHandler={handleQuantityDecrease}
 					plusPressedHandler={handleQuantityIncrease}
 				/>

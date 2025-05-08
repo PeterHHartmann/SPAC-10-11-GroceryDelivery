@@ -46,13 +46,13 @@ export const ShoppingBasketProvider = ({ children }: ShoppingBasketProviderProps
 		const basketCopy = basket.slice();
 		// Find index of product if its already in basket
 		// console.log('we got here', index);
-		const index = basketCopy.findIndex(item => item.product.id === product.id);
+		const index = basketCopy.findIndex(item => item.product.productId === product.productId);
 		if (index !== -1) {
 			console.log('found item in basket');
 			// If found, increase the quantity
 			let updatedQuantity = basketCopy[index].quantity + quantity;
-			if (updatedQuantity > product.stock) {
-				updatedQuantity = product.stock;
+			if (updatedQuantity > product.stockQuantity) {
+				updatedQuantity = product.stockQuantity;
 			}
 			basketCopy[index].quantity = updatedQuantity;
 		} else {
