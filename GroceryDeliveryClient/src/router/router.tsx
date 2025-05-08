@@ -1,8 +1,6 @@
 import { RootLayout } from '@/layout/root-layout';
 import { ShoppingBasketPage } from '@/pages/shopping-basket/shopping-basket-page';
 import { createBrowserRouter, redirect } from 'react-router-dom';
-import {CheckoutPage} from '@/pages/checkout/checkout-page';
-import { createBrowserRouter } from 'react-router-dom';
 import AdminDashboard from '@/pages/admin/dashboard/page';
 import { ShopProductsPage } from '@/pages/shop/products/shop-products-page';
 import { ShopPage } from '@/pages/shop/shop-page';
@@ -43,11 +41,7 @@ export const router = createBrowserRouter([
 						Component: AdminDashboard
 					}
 				]
-			},
-			{
-				path: 'basket/checkout',
-				Component: CheckoutPage
-			},
+			}
 		]
 	}
 ]);
