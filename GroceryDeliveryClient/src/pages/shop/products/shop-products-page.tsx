@@ -1,15 +1,69 @@
 import { useProducts } from '@/api/queries/product-queries';
 import { ProductCard } from '@/components/product-card';
+import { Button } from '@/components/ui/button';
+import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { RefreshCcw } from 'lucide-react';
 import { useMemo, type FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
+const pageSize = 6;
+
 export const ShopProductsPage: FC = () => {
-	const [searchParams] = useSearchParams();
-	const categoryId: string | null = useMemo(() => {
-		return searchParams.get('categoryId');
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const currentCategoryId: number | undefined = useMemo(() => {
+		const categoryId = searchParams.get('categoryId');
+		if (categoryId) {
+			return parseInt(categoryId, 10);
+		}
+		return undefined;
 	}, [searchParams]);
-	const { data: products, isLoading, error } = useProducts({ page: 1, pageSize: 10, categoryId: categoryId ? parseInt(categoryId, 10) : undefined });
+
+	const currentPage: number | undefined = useMemo(() => {
+		const page = searchParams.get('page');
+		if (page) {
+			return parseInt(page, 10);
+		}
+		return 1;
+	}, [searchParams]);
+
+	const { data: products, isLoading, error } = useProducts({
+		page: currentPage,
+		pageSize: pageSize,
+		categoryId: currentCategoryId
+	});
+
+	const hasMorePages = useMemo(() => {
+		if (products && products.length === pageSize) {
+			return true;
+		}
+		return false;
+	}, [products]);
+
+	console.log(hasMorePages);
+
+
+	const handlePagePrevious = (): void => {
+		if (currentPage > 1) {
+			const params = searchParams;
+			params.set('page', String(currentPage - 1));
+			setSearchParams(params, {
+				preventScrollReset: true
+			});
+			return;
+		}
+	};
+
+	const handlePageNext = (): void => {
+		if (hasMorePages) {
+			const params = searchParams;
+			params.set('page', String(currentPage + 1));
+			setSearchParams(params, {
+				preventScrollReset: true
+			});
+			return;
+		}
+	};
 
 	if (isLoading) {
 		return (
@@ -28,8 +82,36 @@ export const ShopProductsPage: FC = () => {
 	}
 
 	return (
-		<section className='flex w-full'>
-			<div className='w-full h-full p-4 grid grid-cols-3 grid-flow-row gap-2'>
+		<section className='grid grid-flow-row-dense w-full '>
+			<Pagination>
+				<PaginationContent className='py-2'>
+					<PaginationItem>
+						<Button
+							variant={'ghost'}
+							disabled={currentPage <= 1}
+							size={'sm'}
+							onClick={handlePagePrevious}
+						>
+							<PaginationPrevious />
+						</Button>
+					</PaginationItem>
+					<PaginationItem>
+						<span> Page <span className='text-primary'>{currentPage}</span>
+						</span>
+					</PaginationItem>
+					<PaginationItem>
+						<Button
+							variant={'ghost'}
+							disabled={!hasMorePages}
+							size={'sm'}
+							onClick={handlePageNext}
+						>
+							<PaginationNext />
+						</Button>
+					</PaginationItem>
+				</PaginationContent>
+			</Pagination>
+			<div className='w-full h-full px-4 grid grid-cols-3 grid-flow-row gap-2'>
 				{products.map((product, index) => (
 					<ProductCard key={`productcard-${String(product.productId)}-card-${String(index)}`} product={product} />
 				))}
