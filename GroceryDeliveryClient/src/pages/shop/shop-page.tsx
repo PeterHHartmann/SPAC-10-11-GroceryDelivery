@@ -12,6 +12,7 @@ export const ShopPage: FC = () => {
 	const handleSelectCategory = (categoryId: number): void => {
 		const params = searchParams;
 		params.set('categoryId', String(categoryId));
+		params.set('page', '1');
 		setSearchParams(params, {
 			preventScrollReset: true
 		});
