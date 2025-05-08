@@ -79,7 +79,10 @@ namespace GroceryDeliveryAPI.Managers
                     OrderId = d.Order.OrderId,
                     CustomerId = d.Order.UserId,
                     OrderDate = d.Order.OrderDate,
-                    DeliveryAddress = d.Order.DeliveryAddress,
+                    Address = d.Order.Address,
+                    City = d.Order.City,
+                    ZipCode = d.Order.ZipCode,
+                    Country = d.Order.Country,
                     TotalAmount = d.Order.TotalAmount,
                     Status = d.Order.Status,
                     PaymentMethod = d.Order.PaymentMethod,
@@ -136,8 +139,10 @@ namespace GroceryDeliveryAPI.Managers
                         LastName = "Unassigned",
                         Email = "system.unassigned@example.com",
                         Password = Guid.NewGuid().ToString(), // Random password
-                        PhoneNumber = "000-000-0000",
+                        PhoneNumber = "000-000-0000",            
                         Address = "System Address",
+                        City = "Default City", // Set a default value for City
+                        Country = "Default Country", // Set a default value for Country
                         Role = User.UserRole.DeliveryPerson,
                         Status = DeliveryPerson.DeliveryPersonStatus.Offline,
                         RegistrationDate = DateTime.UtcNow
@@ -200,7 +205,7 @@ namespace GroceryDeliveryAPI.Managers
                         .ThenInclude(o => o.OrderItems)
                             .ThenInclude(oi => oi.Product)
                     .FirstOrDefaultAsync(d => d.DeliveryId == id);
-                }
+
 
                 if (existingDelivery == null)
                 {
@@ -234,7 +239,10 @@ namespace GroceryDeliveryAPI.Managers
                         OrderId = existingDelivery.Order.OrderId,
                         CustomerId = existingDelivery.Order.UserId,
                         OrderDate = existingDelivery.Order.OrderDate,
-                        DeliveryAddress = existingDelivery.Order.DeliveryAddress,
+                        Address = existingDelivery.Order.Address,
+                        City = existingDelivery.Order.City,
+                        ZipCode = existingDelivery.Order.ZipCode,
+                        Country = existingDelivery.Order.Country,
                         TotalAmount = existingDelivery.Order.TotalAmount,
                         Status = existingDelivery.Order.Status,
                         PaymentMethod = existingDelivery.Order.PaymentMethod,
@@ -333,7 +341,10 @@ namespace GroceryDeliveryAPI.Managers
                         OrderId = existingDelivery.Order.OrderId,
                         CustomerId = existingDelivery.Order.UserId,
                         OrderDate = existingDelivery.Order.OrderDate,
-                        DeliveryAddress = existingDelivery.Order.DeliveryAddress,
+                        Address = existingDelivery.Order.Address,
+                        City = existingDelivery.Order.City,
+                        ZipCode = existingDelivery.Order.ZipCode,
+                        Country = existingDelivery.Order.Country,
                         TotalAmount = existingDelivery.Order.TotalAmount,
                         Status = existingDelivery.Order.Status,
                         PaymentMethod = existingDelivery.Order.PaymentMethod,

@@ -144,6 +144,9 @@ namespace GroceryDeliveryAPI.Managers
                         Email = user.Email,
                         PhoneNumber = user.PhoneNumber,
                         Address = user.Address,
+                        City = user.City,
+                        ZipCode = user.ZipCode,
+                        Country = user.Country,
                         RegistrationDate = DateTime.UtcNow,
                         Role = role,
                         Password = user.Password,
@@ -159,6 +162,9 @@ namespace GroceryDeliveryAPI.Managers
                         Email = user.Email,
                         PhoneNumber = user.PhoneNumber,
                         Address = user.Address,
+                        City = user.City,
+                        ZipCode = user.ZipCode,
+                        Country = user.Country,
                         RegistrationDate = DateTime.UtcNow,
                         Role = role,
                         Password = user.Password
@@ -239,21 +245,6 @@ namespace GroceryDeliveryAPI.Managers
                     HashPassword(existingUser);
                 }
 
-                // Update type-specific properties if applicable
-                if (existingUser is DeliveryPerson existingDeliveryPerson && updatedUser is DeliveryPerson updatedDeliveryPerson)
-                {
-                    existingDeliveryPerson.Status = updatedDeliveryPerson.Status;
-                    existingDeliveryPerson.FirstName = $"{updatedUser.FirstName}";
-                    existingDeliveryPerson.LastName = $"{updatedUser.LastName}";
-                }
-                else if (updatedUser.Role == User.UserRole.DeliveryPerson && existingUser.Role != User.UserRole.DeliveryPerson)
-                {
-                    // This is a harder case - changing from regular user to delivery person
-                    // This might require deleting and recreating the user with the right type
-                    // For now, we'll just set the Status
-                    existingUser.Status = DeliveryPerson.DeliveryPersonStatus.Available;
-                }
-              
                 // Handle role and status updates
                 if (updateDto.Role.HasValue)
                 {
@@ -270,6 +261,9 @@ namespace GroceryDeliveryAPI.Managers
                             Password = existingUser.Password,
                             PhoneNumber = existingUser.PhoneNumber,
                             Address = existingUser.Address,
+                            City = existingUser.City,
+                            ZipCode = existingUser.ZipCode,
+                            Country = existingUser.Country,
                             Role = User.UserRole.DeliveryPerson,
                             Status = DeliveryPerson.DeliveryPersonStatus.Available,
                             RegistrationDate = existingUser.RegistrationDate
