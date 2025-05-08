@@ -4,6 +4,7 @@ import { createBrowserRouter, redirect } from 'react-router-dom';
 import AdminDashboard from '@/pages/admin/dashboard/page';
 import { ShopProductsPage } from '@/pages/shop/products/shop-products-page';
 import { ShopPage } from '@/pages/shop/shop-page';
+import { ProductDetailPage } from '@/pages/product-detail/product-detail-page';
 
 export const router = createBrowserRouter([
 	{
@@ -24,6 +25,10 @@ export const router = createBrowserRouter([
 						Component: ShopProductsPage
 					}
 				]
+			},
+			{
+				path: '/product/:productId',
+				Component: ProductDetailPage,
 			},
 			{
 				path: '/basket',
