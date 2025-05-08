@@ -42,11 +42,11 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
 	return (
 		<Card className="w-full max-w-sm rounded-2xl shadow-md p-0 overflow-hidden">
-			<CardHeader className="block h-64 p-0 w-full relative bg-card">
+			<CardHeader className="block h-64 p-0 w-full relative bg-card mt-4">
 				<ApiImage
 					src={imagePath}
 					alt={productName}
-					className='absolute w-full h-full object-cover mix-blend-multiply'
+					className='absolute w-full h-full object-contain mix-blend-multiply'
 				/>
 			</CardHeader>
 			<CardContent className="px-4">
