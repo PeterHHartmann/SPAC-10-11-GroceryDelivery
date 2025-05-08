@@ -1,12 +1,22 @@
-import type { FC } from 'react';
+import { type FC } from 'react';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarRail } from '@/components/ui/sidebar';
 import { useIsMobile } from '@/hooks/mobile';
 import { useCategories } from '@/api/queries/category-queries';
 import { RefreshCcw } from 'lucide-react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 
 export const ShopPage: FC = () => {
 	const isMobile = useIsMobile();
+	const [searchParams, setSearchParams] = useSearchParams();
+
+	const handleSelectCategory = (categoryId: number): void => {
+		const params = searchParams;
+		params.set('categoryId', String(categoryId));
+		setSearchParams(params, {
+			preventScrollReset: true
+		});
+		return;
+	};
 
 	return (
 		<div className='w-full h-full'>
@@ -20,7 +30,7 @@ export const ShopPage: FC = () => {
 							<SidebarGroup>
 								<SidebarGroupContent>
 									<SidebarMenu>
-										<CategoriesMenu />
+										<CategoriesMenu categorySelectedHandler={handleSelectCategory} />
 									</SidebarMenu>
 								</SidebarGroupContent>
 							</SidebarGroup>
@@ -28,9 +38,7 @@ export const ShopPage: FC = () => {
 					</Sidebar>
 				</aside>
 				<SidebarInset>
-					<section className='w-full h-full p-4 grid grid-cols-3 grid-flow-row gap-2'>
-						<Outlet />
-					</section>
+					<Outlet />
 				</SidebarInset>
 				<SidebarRail />
 			</SidebarProvider>
@@ -38,7 +46,11 @@ export const ShopPage: FC = () => {
 	);
 };
 
-const CategoriesMenu: FC = () => {
+type CategoriesMenuProps = {
+	categorySelectedHandler: (categoryId: number) => void;
+};
+
+const CategoriesMenu: FC<CategoriesMenuProps> = ({ categorySelectedHandler }) => {
 	const { data: categories, isLoading, error } = useCategories();
 
 	if (isLoading) {
@@ -58,7 +70,8 @@ const CategoriesMenu: FC = () => {
 			{
 				categories.map((category) => (
 					<SidebarMenuItem key={'category-' + String(category.id)}>
-						<SidebarMenuButton>
+						{/* TODO implement active state */}
+						<SidebarMenuButton onClick={() => { categorySelectedHandler(category.id); }}>
 							{category.name}
 						</SidebarMenuButton>
 					</SidebarMenuItem>

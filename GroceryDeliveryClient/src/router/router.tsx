@@ -2,7 +2,7 @@ import { RootLayout } from '@/layout/root-layout';
 import { ShoppingBasketPage } from '@/pages/shopping-basket/shopping-basket-page';
 import { createBrowserRouter, redirect } from 'react-router-dom';
 import AdminDashboard from '@/pages/admin/dashboard/page';
-import { ShopProductsPage } from '@/pages/shop/products/products-page';
+import { ShopProductsPage } from '@/pages/shop/products/shop-products-page';
 import { ShopPage } from '@/pages/shop/shop-page';
 
 export const router = createBrowserRouter([
@@ -13,7 +13,7 @@ export const router = createBrowserRouter([
 			{
 				path: '/',
 				index: true,
-				loader: () => redirect("/products"),
+				loader: () => redirect("/shop"),
 			},
 			{
 				path: '/shop',
@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
 						Component: ShopProductsPage
 					},
 					{
-						path: '/shop/category/:categoryId',
+						path: '/shop?category=:categoryId',
 						Component: ShopProductsPage
 					}
 				]
