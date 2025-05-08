@@ -2,10 +2,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Product } from '@/types';
 import { useState, type FC } from 'react';
-import PlaceholderImage from '@/assets/placeholder-image.svg';
 import { Link } from 'react-router-dom';
 import { Stepper } from '@/components/stepper';
 import { useShoppingBasket } from '@/hooks/shopping-basket';
+import { ApiImage } from '@/components/api-image';
 
 type ProductCardProps = {
 	product: Product;
@@ -42,11 +42,11 @@ export const ProductCard: FC<ProductCardProps> = ({ product }) => {
 
 	return (
 		<Card className="w-full max-w-sm rounded-2xl shadow-md p-0 overflow-hidden">
-			<CardHeader className="block h-56 p-0 w-full relative bg-background">
-				<img
-					src={imagePath || PlaceholderImage}
+			<CardHeader className="block h-64 p-0 w-full relative bg-card">
+				<ApiImage
+					src={imagePath}
 					alt={productName}
-					className="absolute w-full h-full object-cover mix-blend-difference"
+					className='absolute w-full h-full object-cover mix-blend-multiply'
 				/>
 			</CardHeader>
 			<CardContent className="px-4">
