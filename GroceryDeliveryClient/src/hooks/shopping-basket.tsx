@@ -34,7 +34,6 @@ const ShoppingBasketContext = createContext<
 		basket: ShoppingBasket,
 		addToBasket: (item: ShoppingBasketItem) => void;
 		removeFromBasket: (item: ShoppingBasketItem) => void;
-		ClearBasket: (item: ShoppingBasketItem) => void;
 	} | undefined
 >(undefined);
 
@@ -85,16 +84,10 @@ export const ShoppingBasketProvider = ({ children }: ShoppingBasketProviderProps
 		return;
 	}, [basket]);
 
-	const clearBasket = useCallback((): void => {
-		setBasket([]);
-	}, []);
-
-	
-
 	// Memoized value to be supplied to the context provider
 	const contextValue = useMemo(() => {
-		return { basket, addToBasket, removeFromBasket, clearBasket };
-	}, [basket, addToBasket, removeFromBasket, clearBasket]);
+		return { basket, addToBasket, removeFromBasket };
+	}, [basket, addToBasket, removeFromBasket]);
 
 	// useEffect to update localstorage when basket state changes
 	useEffect(() => {

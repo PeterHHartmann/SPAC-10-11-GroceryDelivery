@@ -2,7 +2,6 @@ import { RootLayout } from '@/layout/root-layout';
 import { ShoppingBasketPage } from '@/pages/shopping-basket/shopping-basket-page';
 import { createBrowserRouter, redirect } from 'react-router-dom';
 import {CheckoutPage} from '@/pages/checkout/checkout-page';
-import {OrderConfirmationPage} from '@/pages/order-confirmation/order-confirmation-page';
 import { createBrowserRouter } from 'react-router-dom';
 import AdminDashboard from '@/pages/admin/dashboard/page';
 import { ShopProductsPage } from '@/pages/shop/products/shop-products-page';
@@ -48,11 +47,6 @@ export const router = createBrowserRouter([
 			{
 				path: 'basket/checkout',
 				Component: CheckoutPage
-			},
-			{
-				
-				path: '/order-confirmation',
-				Component: OrderConfirmationPage
 			},
 		]
 	}
