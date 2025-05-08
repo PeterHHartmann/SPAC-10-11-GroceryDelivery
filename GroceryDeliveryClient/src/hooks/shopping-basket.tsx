@@ -89,7 +89,7 @@ export const ShoppingBasketProvider = ({ children }: ShoppingBasketProviderProps
 		setBasket([]);
 	}, []);
 
-	
+
 
 	// Memoized value to be supplied to the context provider
 	const contextValue = useMemo(() => {
