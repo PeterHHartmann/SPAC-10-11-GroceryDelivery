@@ -5,6 +5,8 @@ import PlaceholderImage from '@/assets/placeholder-image.svg';
 import { useShoppingBasket } from '@/hooks/shopping-basket';
 import { Stepper } from '@/components/stepper';
 import { Button } from '@/components/ui/button';
+import type { Product } from '@/types';
+import { useCategory } from '@/api/queries/category-queries';
 
 export const ProductDetailPage: FC = () => {
 
@@ -16,12 +18,29 @@ export const ProductDetailPage: FC = () => {
 		error
 	} = useProduct(productId ? parseInt(productId, 10) : 0);
 
-	const { addToBasket } = useShoppingBasket();
+	if (isLoading) {
+		return null;
+	}
 
+	if (error || !product) {
+		return null;
+	}
+
+	return (
+		<ProductDetailCard product={product} />
+	);
+};
+
+type ProductDetailCardProps = {
+	product: Product;
+};
+
+const ProductDetailCard: FC<ProductDetailCardProps> = ({ product }) => {
+	const { addToBasket } = useShoppingBasket();
 	const [quantity, setQuantity] = useState<number>(1);
 
 	const inStock = useMemo(() => {
-		return product.stockQuantity > 0;
+		return product.stockQuantity;
 	}, [product]);
 
 	const handleAddToBasket = (): void => {
@@ -45,14 +64,6 @@ export const ProductDetailPage: FC = () => {
 		return;
 	};
 
-	if (isLoading) {
-		return null;
-	}
-
-	if (error || !product) {
-		return null;
-	}
-
 	return (
 		<div className="max-w-3xl h-max mx-auto p-6 bg-white shadow-md rounded-lg mt-4">
 			<div className="flex flex-col md:flex-row gap-6">
@@ -68,7 +79,7 @@ export const ProductDetailPage: FC = () => {
 				{/* Product Info */}
 				<div className="flex-1">
 					<h1 className="text-2xl font-bold mb-2">{product.productName}</h1>
-					<p className="text-gray-600 mb-4">Category ID: {product.categoryId}</p>
+					<ProductCategoryText categoryId={product.categoryId} />
 					<p className="text-lg font-semibold text-green-600 mb-2">${product.price.toFixed(2)}</p>
 					<p className={`mb-4 ${product.stockQuantity > 0 ? "text-blue-600" : "text-red-500"}`}>
 						{product.stockQuantity > 0 ? `${String(product.stockQuantity)} in stock` : "Out of stock"}
@@ -100,4 +111,31 @@ export const ProductDetailPage: FC = () => {
 			</div>
 		</div>
 	);
+};
+
+type ProductCategoryTextProps = {
+	categoryId: number;
+};
+
+const ProductCategoryText: FC<ProductCategoryTextProps> = ({ categoryId }) => {
+
+	const { data: category, isLoading, error } = useCategory(categoryId);
+	const style = 'text-gray-600 mb-4';
+
+	if (isLoading) {
+		return (
+			<p className={style}></p>
+		);
+	}
+
+	if (error || !category) {
+		return (
+			<p className={style}></p>
+		);
+	}
+
+	return (
+		<p className={style}>{category.name}</p>
+	);
+
 };
