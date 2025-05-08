@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { useMemo, type FC } from 'react';
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarRail } from '@/components/ui/sidebar';
 import { useIsMobile } from '@/hooks/mobile';
 import { useCategories } from '@/api/queries/category-queries';
@@ -52,6 +52,10 @@ type CategoriesMenuProps = {
 
 const CategoriesMenu: FC<CategoriesMenuProps> = ({ categorySelectedHandler }) => {
 	const { data: categories, isLoading, error } = useCategories();
+	const [searchParams] = useSearchParams();
+	const selectedCategory: string | null = useMemo(() => {
+		return searchParams.get('categoryId');
+	}, [searchParams]);
 
 	if (isLoading) {
 		return (
@@ -71,7 +75,10 @@ const CategoriesMenu: FC<CategoriesMenuProps> = ({ categorySelectedHandler }) =>
 				categories.map((category) => (
 					<SidebarMenuItem key={'category-' + String(category.id)}>
 						{/* TODO implement active state */}
-						<SidebarMenuButton onClick={() => { categorySelectedHandler(category.id); }}>
+						<SidebarMenuButton
+							onClick={() => { categorySelectedHandler(category.id); }}
+							isActive={selectedCategory ? String(category.id) === selectedCategory : false}
+						>
 							{category.name}
 						</SidebarMenuButton>
 					</SidebarMenuItem>
