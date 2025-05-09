@@ -20,8 +20,8 @@ namespace GroceryDeliveryAPI.Controllers
         {
             try
             {
-                var users = await _userManager.GetAllUsersAsync();
-                return Ok(users);
+                var userDTOs = await _userManager.GetAllUsersAsync();
+                return Ok(userDTOs);
             }
             catch (Exception ex)
             {

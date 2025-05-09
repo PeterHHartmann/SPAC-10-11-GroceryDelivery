@@ -109,7 +109,7 @@ export default function UsersPage() {
       });
       if (!res.ok) throw new Error('Failed to add user');
       closeModals();
-      fetchUsers();
+      await fetchUsers();
     } catch (err: any) {
       setFormError(err.message || 'Unknown error');
     }
