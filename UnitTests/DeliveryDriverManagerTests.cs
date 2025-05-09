@@ -244,6 +244,9 @@ namespace UnitTests
                 Password = "password",
                 PhoneNumber = "1234567890",
                 Address = "123 Test St",
+                City = "Test City",
+                ZipCode = 12345,
+                Country = "Test Country",
                 Role = User.UserRole.DeliveryPerson,
                 Status = DeliveryPerson.DeliveryPersonStatus.Available,
                 RegistrationDate = DateTime.UtcNow
@@ -264,6 +267,9 @@ namespace UnitTests
                 Password = "password",
                 PhoneNumber = "1234567890",
                 Address = "123 Test St",
+                City = "Test City",
+                ZipCode = 12345,
+                Country = "Test Country",
                 Role = User.UserRole.Customer,
                 RegistrationDate = DateTime.UtcNow
             };
@@ -275,7 +281,10 @@ namespace UnitTests
             {
                 UserId = user.UserId,
                 OrderDate = DateTime.UtcNow,
-                DeliveryAddress = "123 Test St",
+                Address = "123 Test St",
+                City = "Test City",
+                ZipCode = 12345,
+                Country = "Test Country",
                 TotalAmount = 100.00m,
                 Status = "Pending",
                 PaymentMethod = "Credit Card"
@@ -416,6 +425,9 @@ namespace UnitTests
                 Password = "password",
                 PhoneNumber = "000-000-0000",
                 Address = "System Address",
+                City = "System City",
+                ZipCode = 12345,
+                Country = "System Country",
                 Role = User.UserRole.DeliveryPerson,
                 Status = DeliveryPerson.DeliveryPersonStatus.Offline,
                 RegistrationDate = DateTime.UtcNow

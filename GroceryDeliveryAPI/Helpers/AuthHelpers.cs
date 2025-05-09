@@ -42,6 +42,5 @@ namespace GroceryDeliveryAPI.Helpers
                 throw new Exception("Error generating JWT token", e);
             }
         }
-
     }
 }

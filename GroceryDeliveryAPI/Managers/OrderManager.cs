@@ -10,6 +10,7 @@ namespace GroceryDeliveryAPI.Managers
         private readonly GroceryDeliveryContext _context;
         private readonly DeliveryManager deliveryManager;
 
+
         public OrderManager(GroceryDeliveryContext context, DeliveryManager deliveryManager)
         {
             _context = context;
@@ -18,6 +19,10 @@ namespace GroceryDeliveryAPI.Managers
 
         public async Task<(Order Order, string Error)> CreateOrderAsync(OrderCreateDTO orderDto)
         {
+            decimal PACKING_FEE = 4.51M;
+            decimal DELIVERY_FEE = 10.99M;
+            decimal SALES_TAX_PERCENT = 25;
+
             var user = await _context.Users.FindAsync(orderDto.UserId);
             if (user == null)
                 return (null, $"User with ID {orderDto.UserId} not found.");
@@ -32,7 +37,15 @@ namespace GroceryDeliveryAPI.Managers
                     return (null, $"Product with ID {itemDto.ProductId} not found.");
 
                 decimal subtotal = product.Price * itemDto.Quantity;
-                totalAmount += subtotal;
+                if (product.StockQuantity < itemDto.Quantity)
+                    return (null, $"Insufficient stock for product {product.ProductName}.");
+                product.StockQuantity -= itemDto.Quantity;
+                _context.Products.Update(product);
+
+                await _context.SaveChangesAsync();
+                subtotal = subtotal * (1 + SALES_TAX_PERCENT / 100);
+
+                totalAmount = subtotal + PACKING_FEE + DELIVERY_FEE;
 
                 orderItems.Add(new OrderItem
                 {
@@ -47,7 +60,10 @@ namespace GroceryDeliveryAPI.Managers
             {
                 UserId = orderDto.UserId,
                 OrderDate = DateTime.UtcNow,
-                DeliveryAddress = orderDto.DeliveryAddress,
+                Address = orderDto.Address,
+                City = orderDto.City,
+                ZipCode = orderDto.ZipCode,
+                Country = orderDto.Country,
                 TotalAmount = totalAmount,
                 Status = "Pending",
                 PaymentMethod = orderDto.PaymentMethod,
@@ -57,7 +73,7 @@ namespace GroceryDeliveryAPI.Managers
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
-        
+
             await deliveryManager.CreateDelivery(order.OrderId);
 
             return (order, null);
@@ -96,7 +112,10 @@ namespace GroceryDeliveryAPI.Managers
             if (order == null)
                 return false;
 
-            order.DeliveryAddress = updateDto.DeliveryAddress;
+            order.Address = updateDto.Address;
+            order.City = updateDto.City;
+            order.ZipCode = updateDto.ZipCode;
+            order.Country = updateDto.Country;
             order.PaymentMethod = updateDto.PaymentMethod;
             order.DeliveryTime = updateDto.DeliveryTime;
 
@@ -190,8 +209,12 @@ namespace GroceryDeliveryAPI.Managers
             return new OrderDTO
             {
                 OrderId = order.OrderId,
+                UserId = order.UserId,
                 OrderDate = order.OrderDate,
-                DeliveryAddress = order.DeliveryAddress,
+                Address = order.Address,
+                City = order.City,
+                ZipCode = order.ZipCode,
+                Country = order.Country,
                 TotalAmount = order.TotalAmount,
                 Status = order.Status,
                 PaymentMethod = order.PaymentMethod,
