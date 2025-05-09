@@ -1,7 +1,10 @@
 import { RootLayout } from '@/layout/root-layout';
-import { IndexPage } from '@/pages/index/index-page';
-import { createBrowserRouter } from 'react-router-dom';
+import { ShoppingBasketPage } from '@/pages/shopping-basket/shopping-basket-page';
+import { createBrowserRouter, redirect } from 'react-router-dom';
 import AdminDashboard from '@/pages/admin/dashboard/page';
+import { ShopProductsPage } from '@/pages/shop/products/shop-products-page';
+import { ShopPage } from '@/pages/shop/shop-page';
+import { ProductDetailPage } from '@/pages/product-detail/product-detail-page';
 import OrdersPage from '@/pages/admin/orders/page';
 import OrderDetailsPage from '@/pages/admin/orders/[orderId]/page';
 
@@ -11,9 +14,23 @@ export const router = createBrowserRouter([
 		Component: RootLayout,
 		children: [
 			{
+				path: '/',
 				index: true,
-				path: "/",
-				Component: IndexPage
+				loader: () => redirect("/shop"),
+			},
+			{
+				path: '/shop',
+				Component: ShopPage,
+				children: [
+					{
+						index: true,
+						Component: ShopProductsPage
+					}
+				]
+			},
+			{
+				path: '/product/:productId',
+				Component: ProductDetailPage,
 			},
 			{
 				path: "/admin",
