@@ -34,17 +34,16 @@ const ShoppingBasketContext = createContext<
 		basket: ShoppingBasket,
 		addToBasket: (item: ShoppingBasketItem) => void;
 		removeFromBasket: (item: ShoppingBasketItem) => void;
+		clearBasket: () => void;
 	} | undefined
 >(undefined);
 
 export const ShoppingBasketProvider = ({ children }: ShoppingBasketProviderProps) => {
-	// const [state, dispatch] = useReducer(basketReducer, { basket: encodeBasket() || [] });
 	const [basket, setBasket] = useState<ShoppingBasket>(encodeBasket() || []);
 
 	const addToBasket = useCallback(({ product, quantity }: ShoppingBasketItem) => {
 		const basketCopy = basket.slice();
 		// Find index of product if its already in basket
-		// console.log('we got here', index);
 		const index = basketCopy.findIndex(item => item.product.productId === product.productId);
 		if (index !== -1) {
 			console.log('found item in basket');
@@ -84,10 +83,14 @@ export const ShoppingBasketProvider = ({ children }: ShoppingBasketProviderProps
 		return;
 	}, [basket]);
 
+	const clearBasket = useCallback((): void => {
+		setBasket([]);
+	}, []);
+
 	// Memoized value to be supplied to the context provider
 	const contextValue = useMemo(() => {
-		return { basket, addToBasket, removeFromBasket };
-	}, [basket, addToBasket, removeFromBasket]);
+		return { basket, addToBasket, removeFromBasket, clearBasket };
+	}, [basket, addToBasket, removeFromBasket, clearBasket]);
 
 	// useEffect to update localstorage when basket state changes
 	useEffect(() => {

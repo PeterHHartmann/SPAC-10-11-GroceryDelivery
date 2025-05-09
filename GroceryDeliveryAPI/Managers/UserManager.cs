@@ -149,6 +149,9 @@ namespace GroceryDeliveryAPI.Managers
                         Email = user.Email,
                         PhoneNumber = user.PhoneNumber,
                         Address = user.Address,
+                        City = user.City,
+                        ZipCode = user.ZipCode,
+                        Country = user.Country,
                         RegistrationDate = DateTime.UtcNow,
                         Role = role,
                         Password = user.Password,
@@ -164,6 +167,9 @@ namespace GroceryDeliveryAPI.Managers
                         Email = user.Email,
                         PhoneNumber = user.PhoneNumber,
                         Address = user.Address,
+                        City = user.City,
+                        ZipCode = user.ZipCode,
+                        Country = user.Country,
                         RegistrationDate = DateTime.UtcNow,
                         Role = role,
                         Password = user.Password
@@ -235,8 +241,6 @@ namespace GroceryDeliveryAPI.Managers
                     HashPassword(existingUser);
                 }
 
-                
-              
                 // Handle role and status updates
                 if (updateDto.Role.HasValue)
                 {
@@ -253,6 +257,9 @@ namespace GroceryDeliveryAPI.Managers
                             Password = existingUser.Password,
                             PhoneNumber = existingUser.PhoneNumber,
                             Address = existingUser.Address,
+                            City = existingUser.City,
+                            ZipCode = existingUser.ZipCode,
+                            Country = existingUser.Country,
                             Role = User.UserRole.DeliveryPerson,
                             Status = DeliveryPerson.DeliveryPersonStatus.Available,
                             RegistrationDate = existingUser.RegistrationDate
