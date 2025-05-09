@@ -8,6 +8,8 @@ import { ProductDetailPage } from '@/pages/product-detail/product-detail-page';
 import OrdersPage from '@/pages/admin/orders/page';
 import OrderDetailsPage from '@/pages/admin/orders/[orderId]/page';
 import UsersPage from '@/pages/admin/users/page';
+import { CheckoutPage } from '@/pages/checkout/checkout-page';
+import { OrderConfirmationPage } from '@/pages/order-confirmation/order-confirmation-page';
 
 export const router = createBrowserRouter([
 	{
@@ -55,7 +57,16 @@ export const router = createBrowserRouter([
 						Component: UsersPage
 					}
 				]
-			}
+			},
+			{
+				path: 'basket/checkout',
+				Component: CheckoutPage
+			},
+			{
+
+				path: '/order-confirmation',
+				Component: OrderConfirmationPage
+			},
 		]
 	}
 ]);

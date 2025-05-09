@@ -8,9 +8,20 @@ namespace GroceryDeliveryAPI.DTOs
         [Required]
         public int UserId { get; set; }
 
-        [Required]
         [StringLength(255)]
-        public string DeliveryAddress { get; set; }
+        [Required]
+        public string Address { get; set; }
+
+        [StringLength(255)]
+        [Required]
+        public string City { get; set; }
+
+        [Required]
+        public int ZipCode { get; set; }
+
+        [StringLength(50)]
+        [Required]
+        public string Country { get; set; }
 
         [Required]
         [StringLength(50)]
@@ -19,4 +30,4 @@ namespace GroceryDeliveryAPI.DTOs
         [Required]
         public List<OrderItemCreateDTO> OrderItems { get; set; }
     }
-} 
+}

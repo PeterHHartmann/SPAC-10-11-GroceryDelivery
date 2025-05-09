@@ -39,16 +39,73 @@ namespace GroceryDeliveryAPI.Managers
                 .Take(pageSize)
                 .ToListAsync();
 
-            return products.Select(p => new ProductDTO
+            var productDTOs = new List<ProductDTO>();
+
+            foreach (var p in products)
             {
-                ProductId = p.ProductId,
-                ProductName = p.ProductName,
-                CategoryId = p.CategoryId,
-                Price = p.Price,
-                StockQuantity = p.StockQuantity,
-                ImagePath = p.ImagePath,
-                Description = p.Description
-            });
+                var productDTO = new ProductDTO
+                {
+                    ProductId = p.ProductId,
+                    ProductName = p.ProductName,
+                    CategoryId = p.CategoryId,
+                    Price = p.Price,
+                    StockQuantity = p.StockQuantity,
+                    Description = p.Description
+                };
+
+                // Process the image path
+                if (!string.IsNullOrEmpty(p.ImagePath))
+                {
+                    try
+                    {
+                        // Construct the full path from the relative path in the CSV
+                        string fullImagePath = Path.Combine(_environment.ContentRootPath, "Seeding", "GroceryStoreDataset", "dataset", p.ImagePath.TrimStart('/'));
+
+                        if (File.Exists(fullImagePath))
+                        {
+                            // Read the image file and convert to base64
+                            byte[] imageBytes = await File.ReadAllBytesAsync(fullImagePath);
+                            string base64Image = Convert.ToBase64String(imageBytes);
+
+                            // Update the ImagePath to include the base64 data with proper MIME type
+                            string fileExtension = Path.GetExtension(fullImagePath).ToLowerInvariant();
+                            string mimeType = GetMimeTypeFromExtension(fileExtension);
+
+                            productDTO.ImagePath = $"data:{mimeType};base64,{base64Image}";
+                        }
+                        else
+                        {
+                            // If image not found, keep the original path
+                            productDTO.ImagePath = p.ImagePath;
+                            Console.WriteLine($"Image not found: {fullImagePath}");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log error and keep original path
+                        Console.WriteLine($"Error processing image for product {p.ProductId}: {ex.Message}");
+                        productDTO.ImagePath = p.ImagePath;
+                    }
+                }
+
+                productDTOs.Add(productDTO);
+            }
+
+            return productDTOs;
+        }
+
+        // Helper method to determine MIME type from file extension
+        private string GetMimeTypeFromExtension(string extension)
+        {
+            return extension switch
+            {
+                ".jpg" or ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".gif" => "image/gif",
+                ".bmp" => "image/bmp",
+                ".webp" => "image/webp",
+                _ => "application/octet-stream" // Default MIME type
+            };
         }
 
         public async Task<int> GetTotalProductCountAsync(string? searchTerm = null, int? categoryId = null)
@@ -67,7 +124,7 @@ namespace GroceryDeliveryAPI.Managers
 
             return await query.CountAsync();
         }
-      
+
         public async Task<ProductDTO?> GetProductByIdAsync(int id)
         {
             var product = await _context.Products
@@ -112,7 +169,7 @@ namespace GroceryDeliveryAPI.Managers
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
-            Console.WriteLine($"Product created: {product}"); 
+            Console.WriteLine($"Product created: {product}");
 
             return new ProductDTO
             {
@@ -188,4 +245,4 @@ namespace GroceryDeliveryAPI.Managers
             }
         }
     }
-} 
+}
