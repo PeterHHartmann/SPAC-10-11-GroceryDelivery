@@ -7,6 +7,7 @@ import { ShopPage } from '@/pages/shop/shop-page';
 import { ProductDetailPage } from '@/pages/product-detail/product-detail-page';
 import OrdersPage from '@/pages/admin/orders/page';
 import OrderDetailsPage from '@/pages/admin/orders/[orderId]/page';
+import UsersPage from '@/pages/admin/users/page';
 
 export const router = createBrowserRouter([
 	{
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
 								Component: OrderDetailsPage
 							}
 						]
+					},
+					{
+						path: "/admin/users",
+						Component: UsersPage
 					}
 				]
 			}
