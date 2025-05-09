@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator';
-import type { ShoppingBasket } from '@/types';
+import type { Order, ShoppingBasket } from '@/types';
 import { useEffect, useMemo, useState, type FC } from 'react';
 import PlaceholderImage from '@/assets/placeholder-image.svg';
 import { Button } from '@/components/ui/button';
@@ -29,8 +29,8 @@ const calcTotal = (price: number): number => {
 
 export const CheckoutPage: FC = () => {
     const navigate = useNavigate();
-    const { basket, clearBasket } = useShoppingBasket();
-    const createOrder = useCreateOrder();
+    const { basket } = useShoppingBasket();
+    const { mutate: createOrder, isSuccess, isPending, error } = useCreateOrder();
 
     // Form state
     const [customerName, setCustomerName] = useState('');
@@ -48,19 +48,19 @@ export const CheckoutPage: FC = () => {
     }, [basket]);
 
     useEffect(() => {
-        if (basket.length <= 0 && !createOrder.isSuccess) { // Prevent redirect if order was just placed
+        if (basket.length <= 0 && !isSuccess) { // Prevent redirect if order was just placed
             void navigate('/');
         }
-    }, [basket, navigate, createOrder.isSuccess]);
+    }, [basket, navigate, isSuccess]);
 
-    const handlePlaceOrder = async () => {
+    const handlePlaceOrder = () => {
         if (basket.length === 0) {
             // Optionally, show an error message if the basket is empty
             console.error("Basket is empty. Cannot place order.");
             return;
         }
 
-        const orderData = {
+        const orderData: Order = {
             // Ensure this is the correct field name (userId or customerId) and value
             // for the customer identifier that the backend expects.
             userId: 1, // Or potentially customerId: 1 if the backend expects that
@@ -77,17 +77,12 @@ export const CheckoutPage: FC = () => {
             // as they are not in the API creation schema you provided.
         };
 
-        try {
-            await createOrder.mutateAsync(orderData);
-            // Navigate to order confirmation page on success
-            void navigate('/order-confirmation');
-            // Clear the basket after a short delay to allow navigation
-            setTimeout(() => {
-                clearBasket();
-            }, 100);
-        } catch (error) {
-            console.error("Failed to place order:", error);
-        }
+        createOrder(orderData, {
+            onSuccess() {
+                void navigate('/order-confirmation',);
+            },
+
+        });
     };
 
     return (
@@ -266,13 +261,13 @@ export const CheckoutPage: FC = () => {
                     <Button
                         className="w-full mt-6"
                         onClick={() => { handlePlaceOrder(); }}
-                        disabled={createOrder.isPending || basket.length === 0} // Disable button while pending or if basket is empty
+                        disabled={isPending || basket.length === 0} // Disable button while pending or if basket is empty
                     >
-                        {createOrder.isPending ? 'Placing Order...' : 'Place Order'}
+                        {isPending ? 'Placing Order...' : 'Place Order'}
                     </Button>
-                    {createOrder.isError && (
+                    {error && (
                         <p className="text-red-500 text-sm mt-2">
-                            Error placing order: {createOrder.error?.message || "Unknown error"}
+                            Error placing order: {error.message || "Unknown error"}
                         </p>
                     )}
                 </div>

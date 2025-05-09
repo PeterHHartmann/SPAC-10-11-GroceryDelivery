@@ -25,4 +25,6 @@ export type ShoppingBasket = z.infer<typeof ShoppingBasketSchema>;
 
 export type Category = z.infer<typeof CategorySchema>;
 
-export type Order = z.infer<typeof OrderSchema>;
+export type Order = z.infer<typeof OrderSchema> & {
+	orderItems: { productId: number, quantity: number; }[];
+};

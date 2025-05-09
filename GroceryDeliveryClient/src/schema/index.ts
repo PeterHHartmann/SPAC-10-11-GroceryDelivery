@@ -23,17 +23,16 @@ export const ShoppingBasketItemSchema = z.object({
 export const ShoppingBasketSchema = z.array(ShoppingBasketItemSchema);
 
 export const OrderSchema = z.object({
-	id: z.number(),
+	// id: z.number(),
 	userId: z.number(),
-	customerName: z.string(),
-	customerEmail: z.string(),
-	Address: z.string(),
-	customerPhone: z.string(),
-	City: z.string(),
-	ZipCode: z.number(),
-	Country: z.string(),
+	// customerName: z.string(),
+	// customerEmail: z.string(),
+	// customerPhone: z.string(),
+	address: z.string(),
+	city: z.string(),
+	zipCode: z.number(),
+	country: z.string(),
 	paymentMethod: z.string(),
-	orderStatus: z.string(),
-	orderItems: ShoppingBasketItemSchema.array(),
-	totalAmount: z.number(),
+	// orderStatus: z.string(),
+	// totalAmount: z.number(),
 });
