@@ -31,7 +31,6 @@ export const UserService = {
 			);
 		const { data } = response;
 		return data;
-	}
-
+	},
 
 };
