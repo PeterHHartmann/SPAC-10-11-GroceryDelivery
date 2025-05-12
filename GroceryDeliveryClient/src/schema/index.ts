@@ -36,3 +36,21 @@ export const OrderSchema = z.object({
 	// orderStatus: z.string(),
 	// totalAmount: z.number(),
 });
+
+export const RoleSchema = z.object({
+
+});
+
+export const UserSchema = z.object({
+	id: z.number(),
+	firstName: z.string(),
+	lastName: z.string(),
+	email: z.string().email(),
+	phoneNumber: z.number(),
+	address: z.string(),
+	city: z.string().nullable(),
+	zipCode: z.number(),
+	country: z.string().nullable(),
+	role: z.enum(['Customer', 'DeliveryPerson', 'Admin']),
+	password: z.string()
+});
