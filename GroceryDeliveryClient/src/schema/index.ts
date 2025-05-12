@@ -37,10 +37,6 @@ export const OrderSchema = z.object({
 	// totalAmount: z.number(),
 });
 
-export const RoleSchema = z.object({
-
-});
-
 export const UserSchema = z.object({
 	id: z.number(),
 	firstName: z.string(),
