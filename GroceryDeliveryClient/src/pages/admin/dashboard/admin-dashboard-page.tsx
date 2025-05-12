@@ -27,7 +27,7 @@ const orders: Order[] = [
   }
 ];
 
-export default function AdminDashboard() {
+export default function AdminDashboardPage() {
   // Calculate statistics
   const totalOrders = orders.length;
   const pendingOrders = orders.filter(order => order.status === 'pending').length;
@@ -37,7 +37,7 @@ export default function AdminDashboard() {
     <AdminLayout>
       <div className="space-y-6">
         <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-        
+
         {/* Stats Grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {/* Total Orders */}
@@ -81,10 +81,10 @@ export default function AdminDashboard() {
                       <div className="text-right">
                         <p className="text-sm font-medium text-gray-900">${order.total.toFixed(2)}</p>
                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                          ${order.status === 'completed' ? 'bg-green-100 text-green-800' : 
+                          ${order.status === 'completed' ? 'bg-green-100 text-green-800' :
                             order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                            order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-                            'bg-blue-100 text-blue-800'}`}>
+                              order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                'bg-blue-100 text-blue-800'}`}>
                           {order.status}
                         </span>
                       </div>

@@ -1,19 +1,16 @@
 import { RootLayout } from '@/layout/root-layout';
 import { ShoppingBasketPage } from '@/pages/shopping-basket/shopping-basket-page';
 import { createBrowserRouter, redirect } from 'react-router-dom';
-import AdminDashboard from '@/pages/admin/dashboard/page';
 import { ShopProductsPage } from '@/pages/shop/products/shop-products-page';
 import { ShopPage } from '@/pages/shop/shop-page';
 import { ProductDetailPage } from '@/pages/product-detail/product-detail-page';
-import OrdersPage from '@/pages/admin/orders/page';
-import OrderDetailsPage from '@/pages/admin/orders/[orderId]/page';
-import UsersPage from '@/pages/admin/users/page';
 import { CheckoutPage } from '@/pages/checkout/checkout-page';
 import { OrderConfirmationPage } from '@/pages/order-confirmation/order-confirmation-page';
+import { AdminRoutes } from '@/router/admin-routes';
 
 export const router = createBrowserRouter([
 	{
-		path: "/",
+		path: '/',
 		Component: RootLayout,
 		children: [
 			{
@@ -36,37 +33,18 @@ export const router = createBrowserRouter([
 				Component: ProductDetailPage,
 			},
 			{
-				path: "/admin",
-				children: [
-					{
-						index: true,
-						Component: AdminDashboard
-					},
-					{
-						path: "/admin/orders",
-						Component: OrdersPage,
-						children: [
-							{
-								path: "/admin/orders/:orderId",
-								Component: OrderDetailsPage
-							}
-						]
-					},
-					{
-						path: "/admin/users",
-						Component: UsersPage
-					}
-				]
+				path: '/basket',
+				Component: ShoppingBasketPage
 			},
 			{
 				path: 'basket/checkout',
 				Component: CheckoutPage
 			},
 			{
-
 				path: '/order-confirmation',
 				Component: OrderConfirmationPage
 			},
 		]
-	}
+	},
+	...AdminRoutes
 ]);

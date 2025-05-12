@@ -24,7 +24,7 @@ const emptyUser = {
 
 type UserForm = typeof emptyUser;
 
-export default function UsersPage() {
+export default function AdminUsersPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -296,7 +296,7 @@ export default function UsersPage() {
 }
 
 // Simple Modal component
-function Modal({ onClose, title, children }: { onClose: () => void; title: string; children: React.ReactNode }) {
+function Modal({ onClose, title, children }: { onClose: () => void; title: string; children: React.ReactNode; }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">

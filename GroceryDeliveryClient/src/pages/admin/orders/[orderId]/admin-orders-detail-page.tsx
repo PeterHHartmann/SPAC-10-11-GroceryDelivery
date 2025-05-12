@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import AdminLayout from '../../../../components/admin/layout/AdminLayout';
-import { 
-  ArrowLeft, 
-  Package, 
-  User, 
+import {
+  ArrowLeft,
+  Package,
+  User,
   CreditCard,
   AlertCircle
 } from 'lucide-react';
@@ -31,7 +31,7 @@ interface OrderDetails {
   notes: string;
 }
 
-export default function OrderDetailsPage() {
+export default function AdminOrderDetailsPage() {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);

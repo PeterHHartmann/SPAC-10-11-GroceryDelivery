@@ -12,7 +12,7 @@ interface Order {
   total: number;
 }
 
-export default function OrdersPage() {
+export default function AdminOrdersPage() {
   const [searchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
@@ -58,9 +58,9 @@ export default function OrdersPage() {
           {/* Header */}
           <div className="flex justify-between items-center">
             <h1 className="text-2xl font-semibold text-gray-900">
-              {statusFilter === 'all' ? 'All Orders' : 
-               statusFilter === 'pending' ? 'Pending Orders' :
-               statusFilter === 'completed' ? 'Completed Orders' : 'Orders'}
+              {statusFilter === 'all' ? 'All Orders' :
+                statusFilter === 'pending' ? 'Pending Orders' :
+                  statusFilter === 'completed' ? 'Completed Orders' : 'Orders'}
             </h1>
             <button
               type="button"
@@ -148,7 +148,7 @@ export default function OrdersPage() {
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredOrders.map((order) => (
-                    <tr 
+                    <tr
                       key={order.id}
                       className="hover:bg-gray-50 cursor-pointer"
                       onClick={() => {
@@ -166,10 +166,10 @@ export default function OrdersPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                          ${order.status === 'completed' ? 'bg-green-100 text-green-800' : 
+                          ${order.status === 'completed' ? 'bg-green-100 text-green-800' :
                             order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                            order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-                            'bg-blue-100 text-blue-800'}`}>
+                              order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                                'bg-blue-100 text-blue-800'}`}>
                           {order.status}
                         </span>
                       </td>
