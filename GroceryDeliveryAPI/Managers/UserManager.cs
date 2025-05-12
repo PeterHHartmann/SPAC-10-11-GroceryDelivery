@@ -14,18 +14,23 @@ namespace GroceryDeliveryAPI.Managers
             _context = context;
         }
 
-        public async Task<List<User>> GetAllUsersAsync()
+        public async Task<List<UserDTO>> GetAllUsersAsync()
         {
             try
             {
                 var users = await _context.Users
+                    .Select(u => new UserDTO
+                    {
+                        Id = u.UserId,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Email = u.Email,
+                        PhoneNumber = u.PhoneNumber,
+                        Address = u.Address,
+                        Role = u.Role,
+                        Password = null // Never expose password
+                    })
                     .ToListAsync();
-
-                // Remove sensitive data
-                foreach (var user in users)
-                {
-                    user.Password = null; // Don't return password hashes
-                }
 
                 return users;
             }

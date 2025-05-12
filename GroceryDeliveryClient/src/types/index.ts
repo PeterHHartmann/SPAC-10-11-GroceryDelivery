@@ -1,4 +1,4 @@
-import type { CategorySchema, ProductSchema, ShoppingBasketItemSchema, ShoppingBasketSchema, OrderSchema } from '@/schema';
+import type { CategorySchema, ProductSchema, ShoppingBasketItemSchema, ShoppingBasketSchema, OrderSchema, UserSchema } from '@/schema';
 import { z } from 'zod';
 
 export type PaginationParams = {
@@ -28,3 +28,5 @@ export type Category = z.infer<typeof CategorySchema>;
 export type Order = z.infer<typeof OrderSchema> & {
 	orderItems: { productId: number, quantity: number; }[];
 };
+
+export type User = z.infer<typeof UserSchema>;

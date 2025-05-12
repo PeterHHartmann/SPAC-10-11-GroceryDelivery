@@ -65,31 +65,41 @@ export default function AdminSidebar() {
       <nav className="p-4 space-y-1">
         {navigation.map((item) => (
           <div key={item.title}>
-            <button
-              type="button"
-              onClick={() => {
-                if (item.subItems) {
+            {item.subItems ? (
+              <button
+                type="button"
+                onClick={() => {
                   toggleSubItems(item.title);
-                }
-              }}
-              className={`w-full flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md ${
-                location.pathname === item.path
-                  ? 'bg-gray-100 text-gray-900'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-              }`}
-            >
-              <div className="flex items-center">
-                <item.icon className="w-5 h-5 mr-3" />
-                {item.title}
-              </div>
-              {item.subItems && (
+                }}
+                className={`w-full flex items-center justify-between px-4 py-2 text-sm font-medium rounded-md ${
+                  location.pathname === item.path
+                    ? 'bg-gray-100 text-gray-900'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                }`}
+              >
+                <div className="flex items-center">
+                  <item.icon className="w-5 h-5 mr-3" />
+                  {item.title}
+                </div>
                 <ChevronDown
                   className={`w-4 h-4 transition-transform ${
                     expandedItems.includes(item.title) ? 'rotate-180' : ''
                   }`}
                 />
-              )}
-            </button>
+              </button>
+            ) : (
+              <Link
+                to={item.path}
+                className={`w-full flex items-center px-4 py-2 text-sm font-medium rounded-md ${
+                  location.pathname === item.path
+                    ? 'bg-gray-100 text-gray-900'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                }`}
+              >
+                <item.icon className="w-5 h-5 mr-3" />
+                {item.title}
+              </Link>
+            )}
 
             {/* Sub Items */}
             {item.subItems && expandedItems.includes(item.title) && (
@@ -98,6 +108,13 @@ export default function AdminSidebar() {
                   <Link
                     key={subItem.path}
                     to={subItem.path}
+                    onClick={(e) => {
+                      // If clicking "All Orders" and we're already on the orders page, force a refresh
+                      if (subItem.title === 'All Orders' && location.pathname === '/admin/orders') {
+                        e.preventDefault();
+                        window.location.href = '/admin/orders';
+                      }
+                    }}
                     className={`block px-4 py-2 text-sm rounded-md ${
                       location.pathname + location.search === subItem.path
                         ? 'bg-gray-100 text-gray-900'
