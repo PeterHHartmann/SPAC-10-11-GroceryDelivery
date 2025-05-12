@@ -1,5 +1,6 @@
 ﻿using GroceryDeliveryAPI.Context;
 using GroceryDeliveryAPI.DTO_s;
+using GroceryDeliveryAPI.DTOs;
 using GroceryDeliveryAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,7 +45,9 @@ namespace GroceryDeliveryAPI.Managers
         public async Task<CategoryDTO> GetCategoryByNameAsync(string name)
         {
             var category = await _context.Categories
-                .FirstOrDefaultAsync(c => c.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+               .Where(c => c.Name.ToLower() == name.ToLower())
+               .FirstOrDefaultAsync();
+           
             if (category == null)
             {
                 throw new KeyNotFoundException($"Category with name {name} not found.");
@@ -57,20 +60,32 @@ namespace GroceryDeliveryAPI.Managers
             return categoryDTO;
         }
 
-        public async Task<CategoryDTO> GetCategoryByIdWithProductsAsync(int id)
+        public async Task<CategoryWithProductsDTO> GetCategoryByIdWithProductsAsync(int id)
         {
             var category = await _context.Categories
                 .Include(c => c.Products)
                 .FirstOrDefaultAsync(c => c.Id == id);
+
             if (category == null)
             {
                 throw new KeyNotFoundException($"Category with ID {id} not found.");
             }
-            var categoryDTO = new CategoryDTO
+
+            var categoryDTO = new CategoryWithProductsDTO
             {
                 Id = category.Id,
-                Name = category.Name
+                Name = category.Name,
+                Products = category.Products.Select(p => new ProductDTO
+                {
+                    ProductId = p.ProductId,
+                    ProductName = p.ProductName,
+                    Price = p.Price,
+                    StockQuantity = p.StockQuantity,
+                    ImagePath = p.ImagePath,
+                    Description = p.Description
+                }).ToList()
             };
+
             return categoryDTO;
         }
         public async Task<Category> CreateCategoryAsync(CategoryDTO category)
@@ -83,19 +98,33 @@ namespace GroceryDeliveryAPI.Managers
             {
                 throw new ArgumentException("Category name cannot be null or empty.", nameof(category));
             }
-            var existingCategory = await _context.Categories
-                .FirstOrDefaultAsync(c => c.Name.Equals(category.Name, StringComparison.OrdinalIgnoreCase));
-            if (existingCategory != null) { return existingCategory; }
 
-          Category newCategory = new Category
-          {
-              Name = category.Name
-          };
+            var existingCategory = await _context.Categories
+                .Where(c => c.Name.ToLower() == category.Name.ToLower())
+                .FirstOrDefaultAsync();
+
+            if (existingCategory != null)
+            {
+                return existingCategory;
+            }
+
+            int newCategoryId = 1;
+            if (await _context.Products.AnyAsync())
+            {
+                newCategoryId = await _context.Categories.MaxAsync(c => c.Id) + 1;
+            }
+
+            Category newCategory = new Category
+            {
+                Name = category.Name,
+                Id = newCategoryId
+            };
+
             _context.Categories.Add(newCategory);
             await _context.SaveChangesAsync();
             return newCategory;
-
         }
+
         public async Task<CategoryDTO> UpdateCategoryAsync(int id, CategoryDTO category)
         {
             if (category == null)

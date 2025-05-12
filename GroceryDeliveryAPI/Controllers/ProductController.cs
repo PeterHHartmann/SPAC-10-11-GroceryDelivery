@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using GroceryDeliveryAPI.DTOs;
 using GroceryDeliveryAPI.Managers;
+using GroceryDeliveryAPI.DTO_s;
 
 namespace GroceryDeliveryAPI.Controllers
 {
@@ -110,4 +111,4 @@ namespace GroceryDeliveryAPI.Controllers
         public string Base64Image { get; set; } = string.Empty;
         public string FileName { get; set; } = string.Empty;
     }
-} 
+}

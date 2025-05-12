@@ -28,7 +28,31 @@ namespace GroceryDeliveryAPI.Models
         [Required]
         public string Address { get; set; }
 
+        [StringLength(255)]
         [Required]
+        public string City { get; set; }
+
+        [StringLength(10)]
+        [Required]
+        public int ZipCode { get; set; }
+
+        [StringLength(50)]
+        [Required]
+        public string Country { get; set; }
+
+        [Required]
+<<<<<<< HEAD
+=======
+        public UserRole Role { get; set; }
+
+        // Add discriminator column for TPH inheritance
+        protected string Discriminator { get; set; }
+
+        // Add Status with nullable enum since it's only for delivery persons
+        public DeliveryPerson.DeliveryPersonStatus? Status { get; set; }
+
+        [Required]
+>>>>>>> 155452d307eeb21e5edeeedd00a613c5cefe1f46
         public DateTime RegistrationDate { get; set; }
 
         // Navigation property
