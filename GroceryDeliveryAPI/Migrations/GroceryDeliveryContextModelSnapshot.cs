@@ -63,10 +63,9 @@ namespace GroceryDeliveryAPI.Migrations
                     b.Property<DateTime?>("PickupTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
+                    b.Property<int>("Status")
                         .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("integer");
 
                     b.HasKey("DeliveryId");
 
@@ -77,39 +76,6 @@ namespace GroceryDeliveryAPI.Migrations
                     b.ToTable("Deliveries");
                 });
 
-            modelBuilder.Entity("GroceryDeliveryAPI.Models.DeliveryPerson", b =>
-                {
-                    b.Property<int>("DeliveryPersonId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DeliveryPersonId"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
-                    b.HasKey("DeliveryPersonId");
-
-                    b.ToTable("DeliveryPersons");
-                });
-
             modelBuilder.Entity("GroceryDeliveryAPI.Models.Order", b =>
                 {
                     b.Property<int>("OrderId")
@@ -118,10 +84,20 @@ namespace GroceryDeliveryAPI.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("OrderId"));
 
-                    b.Property<string>("DeliveryAddress")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<DateTime?>("DeliveryTime")
                         .HasColumnType("timestamp with time zone");
@@ -143,6 +119,9 @@ namespace GroceryDeliveryAPI.Migrations
                         .HasColumnType("decimal(10,2)");
 
                     b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ZipCode")
                         .HasColumnType("integer");
 
                     b.HasKey("OrderId");
@@ -236,6 +215,21 @@ namespace GroceryDeliveryAPI.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(21)
+                        .HasColumnType("character varying(21)");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -259,9 +253,27 @@ namespace GroceryDeliveryAPI.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("text");
+
+                    b.Property<int>("ZipCode")
+                        .HasMaxLength(10)
+                        .HasColumnType("integer");
+
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+
+                    b.HasDiscriminator().HasValue("User");
+
+                    b.UseTphMappingStrategy();
+                });
+
+            modelBuilder.Entity("GroceryDeliveryAPI.Models.DeliveryPerson", b =>
+                {
+                    b.HasBaseType("GroceryDeliveryAPI.Models.User");
+
+                    b.HasDiscriminator().HasValue("DeliveryPerson");
                 });
 
             modelBuilder.Entity("GroceryDeliveryAPI.Models.Delivery", b =>
@@ -329,11 +341,6 @@ namespace GroceryDeliveryAPI.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("GroceryDeliveryAPI.Models.DeliveryPerson", b =>
-                {
-                    b.Navigation("Deliveries");
-                });
-
             modelBuilder.Entity("GroceryDeliveryAPI.Models.Order", b =>
                 {
                     b.Navigation("Deliveries");
@@ -349,6 +356,11 @@ namespace GroceryDeliveryAPI.Migrations
             modelBuilder.Entity("GroceryDeliveryAPI.Models.User", b =>
                 {
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("GroceryDeliveryAPI.Models.DeliveryPerson", b =>
+                {
+                    b.Navigation("Deliveries");
                 });
 #pragma warning restore 612, 618
         }
