@@ -1,4 +1,8 @@
 # SPAC - Week 10 & 11 - GroceryDelivery
+
+![README HERO](./docs/readme-hero.png)
+
+## Description
 This project is a group collaboration between __Thyge123, EmilSalomonsen and PeterHHartmann__.
 This repository contains the contents of a 2 week group project at Specialisterne Academy for week 10 and 11. 
 
