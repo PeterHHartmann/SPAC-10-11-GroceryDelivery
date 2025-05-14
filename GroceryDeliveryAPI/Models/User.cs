@@ -4,12 +4,23 @@ namespace GroceryDeliveryAPI.Models
 {
     public class User
     {
+        public enum UserRole
+        {
+            Customer,
+            Admin,
+            DeliveryPerson
+        }
+
         [Key]
         public int UserId { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string Username { get; set; }
+        public string FirstName { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string LastName { get; set; }
 
         [Required]
         [StringLength(100)]
@@ -41,8 +52,6 @@ namespace GroceryDeliveryAPI.Models
         public string Country { get; set; }
 
         [Required]
-<<<<<<< HEAD
-=======
         public UserRole Role { get; set; }
 
         // Add discriminator column for TPH inheritance
@@ -52,7 +61,6 @@ namespace GroceryDeliveryAPI.Models
         public DeliveryPerson.DeliveryPersonStatus? Status { get; set; }
 
         [Required]
->>>>>>> 155452d307eeb21e5edeeedd00a613c5cefe1f46
         public DateTime RegistrationDate { get; set; }
 
         // Navigation property
